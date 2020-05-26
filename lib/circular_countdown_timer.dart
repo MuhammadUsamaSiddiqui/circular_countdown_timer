@@ -58,6 +58,8 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   bool flag = true;
 
+  Stopwatch _stopwatch = Stopwatch();
+
   String get timerString {
     Duration duration = controller.duration * controller.value;
     String time =
@@ -65,10 +67,16 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
 
     if (widget.reverseOrder == null || !widget.reverseOrder) {
       // For Forward Order
+      final millisecondsRemaining = Duration(seconds: widget.duration).inMilliseconds - _stopwatch.elapsed.inMilliseconds;
+      final minutesRemaining = ((millisecondsRemaining / (1000*60)) % 60).toInt();
+      final secondsRemaining = ((millisecondsRemaining / 1000) % 60).toInt();
+      time = '${minutesRemaining.toString().padLeft(2, '0')}:${secondsRemaining.toString().padLeft(2, '0')}';
+
       Duration forwardDuration = Duration(seconds: widget.duration);
       if (forwardDuration.inSeconds == duration.inSeconds) {
         flag = false;
         if (widget.onCountDownComplete != null) {
+          _stopwatch.stop();
           widget.onCountDownComplete();
         }
         return time;
@@ -96,6 +104,7 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
     );
 
     if (widget.reverseOrder == null || !widget.reverseOrder) {
+      _stopwatch.start();
       controller.forward(from: controller.value);
     } else {
       controller.reverse(
@@ -159,6 +168,7 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   @override
   void dispose() {
+    _stopwatch.stop();
     controller.stop();
     controller.dispose();
     super.dispose();

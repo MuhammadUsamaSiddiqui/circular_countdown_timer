@@ -59,7 +59,7 @@ class _MyHomePageState extends State<MyHomePage> {
               color: Colors.black87,
               fontWeight: FontWeight.bold),
 
-          // Count Order i.e forward or reverse, true for reverse and false for forward order
+          // true for reverse countdown (max to 0), false for forward countdown (0 to max)
           reverseOrder: false,
 
           // Function which will execute when the Countdown Ends

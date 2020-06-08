@@ -1,6 +1,7 @@
 library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'custom_timer_painter.dart';
 
 /// Create a Cicular Countdown Timer
@@ -29,7 +30,7 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Text Style for Countdown Text
   final TextStyle countdownTextStyle;
 
-  /// Count Order i.e forward or reverse, true for reverse and false for forward order
+  /// true for reverse countdown (max to 0), false for forward countdown (0 to max)
   final bool reverseOrder;
 
   CircularCountDownTimer(
@@ -66,20 +67,22 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
     if (widget.reverseOrder == null || !widget.reverseOrder) {
       // For Forward Order
       Duration forwardDuration = Duration(seconds: widget.duration);
-      if (forwardDuration.inSeconds == duration.inSeconds) {
+      if (forwardDuration.inSeconds == duration.inSeconds && flag) {
         flag = false;
         if (widget.onCountDownComplete != null) {
-          widget.onCountDownComplete();
+          SchedulerBinding.instance
+              .addPostFrameCallback((_) => widget.onCountDownComplete());
         }
         return time;
       }
       return time;
     } else {
       // For Reverse Order
-      if (time == '0:00' && flag) {
+      if (controller.isDismissed && flag) {
         flag = false;
         if (widget.onCountDownComplete != null) {
-          widget.onCountDownComplete();
+          SchedulerBinding.instance
+              .addPostFrameCallback((_) => widget.onCountDownComplete());
         }
         return '0:00';
       }

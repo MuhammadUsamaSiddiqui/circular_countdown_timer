@@ -1,6 +1,6 @@
 name: circular_countdown_timer
-description: Make an animated countdown timer using Circular Countdown Timer.
-version: 0.0.2
+description: Make an animated countdown using Circular Countdown Timer.
+version: 0.0.3
 homepage: https://github.com/MuhammadUsamaSiddiqui/circular_countdown_timer
 
 environment:

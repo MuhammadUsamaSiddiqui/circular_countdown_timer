@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'custom_timer_painter.dart';
 
-/// Create a Cicular Countdown Timer
+/// Create a Circular Countdown Timer
 class CircularCountDownTimer extends StatefulWidget {
   /// Filling Color for Countdown Timer
   final Color fillColor;
@@ -13,7 +13,7 @@ class CircularCountDownTimer extends StatefulWidget {
   final Color color;
 
   /// Function which will execute when the Countdown Ends
-  final Function onCountDownComplete;
+  final Function onComplete;
 
   /// Countdown Duration in Seconds
   final int duration;
@@ -28,10 +28,10 @@ class CircularCountDownTimer extends StatefulWidget {
   final double strokeWidth;
 
   /// Text Style for Countdown Text
-  final TextStyle countdownTextStyle;
+  final TextStyle textStyle;
 
   /// true for reverse countdown (max to 0), false for forward countdown (0 to max)
-  final bool reverseOrder;
+  final bool isReverse;
 
   CircularCountDownTimer(
       {@required this.width,
@@ -39,10 +39,10 @@ class CircularCountDownTimer extends StatefulWidget {
       @required this.duration,
       @required this.fillColor,
       @required this.color,
-      this.reverseOrder,
-      this.onCountDownComplete,
+      this.isReverse,
+      this.onComplete,
       this.strokeWidth,
-      this.countdownTextStyle})
+      this.textStyle})
       : assert(width != null),
         assert(height != null),
         assert(duration != null),
@@ -64,14 +64,14 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
     String time =
         '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
 
-    if (widget.reverseOrder == null || !widget.reverseOrder) {
+    if (widget.isReverse == null || !widget.isReverse) {
       // For Forward Order
       Duration forwardDuration = Duration(seconds: widget.duration);
       if (forwardDuration.inSeconds == duration.inSeconds && flag) {
         flag = false;
-        if (widget.onCountDownComplete != null) {
+        if (widget.onComplete != null) {
           SchedulerBinding.instance
-              .addPostFrameCallback((_) => widget.onCountDownComplete());
+              .addPostFrameCallback((_) => widget.onComplete());
         }
         return time;
       }
@@ -80,9 +80,9 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
       // For Reverse Order
       if (controller.isDismissed && flag) {
         flag = false;
-        if (widget.onCountDownComplete != null) {
+        if (widget.onComplete != null) {
           SchedulerBinding.instance
-              .addPostFrameCallback((_) => widget.onCountDownComplete());
+              .addPostFrameCallback((_) => widget.onComplete());
         }
         return '0:00';
       }
@@ -98,7 +98,7 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
       duration: Duration(seconds: widget.duration),
     );
 
-    if (widget.reverseOrder == null || !widget.reverseOrder) {
+    if (widget.isReverse == null || !widget.isReverse) {
       controller.forward(from: controller.value);
     } else {
       controller.reverse(
@@ -140,7 +140,7 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
                                   alignment: FractionalOffset.center,
                                   child: Text(
                                     timerString,
-                                    style: widget.countdownTextStyle ??
+                                    style: widget.textStyle ??
                                         TextStyle(
                                             fontSize: 16.0,
                                             color: Colors.black),

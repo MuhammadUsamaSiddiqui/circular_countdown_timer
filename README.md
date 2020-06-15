@@ -1,6 +1,6 @@
 # Circular Countdown Timer
 
-Make an animated countdown using Circular Countdown Timer.
+Make an animated circular countdown using Circular Countdown Timer.
 
 # Getting Started
 

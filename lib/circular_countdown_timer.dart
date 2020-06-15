@@ -58,35 +58,52 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
   AnimationController controller;
 
   bool flag = true;
+  String time;
 
   String get timerString {
     Duration duration = controller.duration * controller.value;
-    String time =
-        '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    _setTimeFormat(duration);
+    time = _getTime(duration);
+    return time;
+  }
 
+  void _setTimeFormat(Duration duration) {
+    if (duration.inHours != 0) {
+      // For HH:mm:ss format
+      time =
+          '${duration.inHours}:${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    } else {
+      // For mm:ss format
+      time =
+          '${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    }
+  }
+
+  String _getTime(Duration duration) {
     if (widget.isReverse == null || !widget.isReverse) {
-      // For Forward Order
+      // For Forward Countdown
       Duration forwardDuration = Duration(seconds: widget.duration);
       if (forwardDuration.inSeconds == duration.inSeconds && flag) {
         flag = false;
-        if (widget.onComplete != null) {
-          SchedulerBinding.instance
-              .addPostFrameCallback((_) => widget.onComplete());
-        }
+        _callOnComplete();
         return time;
       }
       return time;
     } else {
-      // For Reverse Order
+      // For Reverse Countdown
       if (controller.isDismissed && flag) {
         flag = false;
-        if (widget.onComplete != null) {
-          SchedulerBinding.instance
-              .addPostFrameCallback((_) => widget.onComplete());
-        }
+        _callOnComplete();
         return '0:00';
       }
       return time;
+    }
+  }
+
+  void _callOnComplete() {
+    if (widget.onComplete != null) {
+      SchedulerBinding.instance
+          .addPostFrameCallback((_) => widget.onComplete());
     }
   }
 
@@ -98,9 +115,15 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
       duration: Duration(seconds: widget.duration),
     );
 
+    _setAnimation();
+  }
+
+  void _setAnimation() {
     if (widget.isReverse == null || !widget.isReverse) {
+      // Forward Animation
       controller.forward(from: controller.value);
     } else {
+      // Reverse Animation
       controller.reverse(
           from: controller.value == 0.0 ? 1.0 : controller.value);
     }

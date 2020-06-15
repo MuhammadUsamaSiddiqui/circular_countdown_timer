@@ -15,3 +15,7 @@
     * **onCountDownComplete** to **onComplete**.
 
 * Updated **README**.
+
+## [0.0.4] - Jun 15 2020.
+
+* Added support to show **Hours** in Countdown Text.

@@ -99,9 +99,28 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   void _callOnComplete() {
     if (widget.onComplete != null) {
-      SchedulerBinding.instance
-          .addPostFrameCallback((_) => widget.onComplete());
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => widget.onComplete(),
+      );
     }
+  }
+
+  void _setAnimation() {
+    if (widget.isReverse == null || !widget.isReverse) {
+      // Forward Animation
+      controller.forward(from: controller.value);
+    } else {
+      // Reverse Animation
+      controller.reverse(
+        from: controller.value == 0.0 ? 1.0 : controller.value,
+      );
+    }
+  }
+
+  void _updateTime() {
+    Duration duration = controller.duration * controller.value;
+    _setTimeFormat(duration);
+    time = _getTime(duration);
   }
 
   @override
@@ -113,23 +132,6 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
     );
 
     _setAnimation();
-  }
-
-  void _setAnimation() {
-    if (widget.isReverse == null || !widget.isReverse) {
-      // Forward Animation
-      controller.forward(from: controller.value);
-    } else {
-      // Reverse Animation
-      controller.reverse(
-          from: controller.value == 0.0 ? 1.0 : controller.value);
-    }
-  }
-
-  void _updateTime() {
-    Duration duration = controller.duration * controller.value;
-    _setTimeFormat(duration);
-    time = _getTime(duration);
   }
 
   @override
@@ -158,11 +160,13 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
                               children: <Widget>[
                                 Positioned.fill(
                                   child: CustomPaint(
-                                      painter: CustomTimerPainter(
-                                          animation: controller,
-                                          fillColor: widget.fillColor,
-                                          color: widget.color,
-                                          strokeWidth: widget.strokeWidth)),
+                                    painter: CustomTimerPainter(
+                                      animation: controller,
+                                      fillColor: widget.fillColor,
+                                      color: widget.color,
+                                      strokeWidth: widget.strokeWidth,
+                                    ),
+                                  ),
                                 ),
                                 widget.isTimerTextShown
                                     ? Align(
@@ -171,8 +175,9 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
                                           time,
                                           style: widget.textStyle ??
                                               TextStyle(
-                                                  fontSize: 16.0,
-                                                  color: Colors.black),
+                                                fontSize: 16.0,
+                                                color: Colors.black,
+                                              ),
                                         ),
                                       )
                                     : Container(),

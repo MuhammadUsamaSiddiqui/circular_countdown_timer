@@ -64,13 +64,6 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
   bool flag = true;
   String time;
 
-  String get timerString {
-    Duration duration = controller.duration * controller.value;
-    _setTimeFormat(duration);
-    time = _getTime(duration);
-    return time;
-  }
-
   void _setTimeFormat(Duration duration) {
     if (duration.inHours != 0) {
       // For HH:mm:ss format
@@ -133,8 +126,16 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
     }
   }
 
+  void _updateTime() {
+    Duration duration = controller.duration * controller.value;
+    _setTimeFormat(duration);
+    time = _getTime(duration);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _updateTime();
+
     return Container(
       width: widget.width,
       height: widget.height,
@@ -167,7 +168,7 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
                                     ? Align(
                                         alignment: FractionalOffset.center,
                                         child: Text(
-                                          timerString,
+                                          time,
                                           style: widget.textStyle ??
                                               TextStyle(
                                                   fontSize: 16.0,

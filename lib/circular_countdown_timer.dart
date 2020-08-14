@@ -33,17 +33,21 @@ class CircularCountDownTimer extends StatefulWidget {
   /// true for reverse countdown (max to 0), false for forward countdown (0 to max)
   final bool isReverse;
 
-  CircularCountDownTimer(
-      {@required this.width,
-      @required this.height,
-      @required this.duration,
-      @required this.fillColor,
-      @required this.color,
-      this.isReverse,
-      this.onComplete,
-      this.strokeWidth,
-      this.textStyle})
-      : assert(width != null),
+  /// Optional [bool] flag to hide the [Text] in this widget.
+  final bool isTimerTextShown;
+
+  CircularCountDownTimer({
+    @required this.width,
+    @required this.height,
+    @required this.duration,
+    @required this.fillColor,
+    @required this.color,
+    this.isReverse,
+    this.onComplete,
+    this.strokeWidth,
+    this.textStyle,
+    this.isTimerTextShown = true,
+  })  : assert(width != null),
         assert(height != null),
         assert(duration != null),
         assert(fillColor != null),
@@ -159,16 +163,18 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
                                           color: widget.color,
                                           strokeWidth: widget.strokeWidth)),
                                 ),
-                                Align(
-                                  alignment: FractionalOffset.center,
-                                  child: Text(
-                                    timerString,
-                                    style: widget.textStyle ??
-                                        TextStyle(
-                                            fontSize: 16.0,
-                                            color: Colors.black),
-                                  ),
-                                ),
+                                widget.isTimerTextShown
+                                    ? Align(
+                                        alignment: FractionalOffset.center,
+                                        child: Text(
+                                          timerString,
+                                          style: widget.textStyle ??
+                                              TextStyle(
+                                                  fontSize: 16.0,
+                                                  color: Colors.black),
+                                        ),
+                                      )
+                                    : Container(),
                               ],
                             ),
                           ),

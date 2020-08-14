@@ -1,7 +1,6 @@
 library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'custom_timer_painter.dart';
 
 /// Create a Circular Countdown Timer
@@ -33,7 +32,7 @@ class CircularCountDownTimer extends StatefulWidget {
   /// true for reverse countdown (max to 0), false for forward countdown (0 to max)
   final bool isReverse;
 
-  /// Optional [bool] flag to hide the [Text] in this widget.
+  /// Optional [bool] to hide the [Text] in this widget.
   final bool isTimerTextShown;
 
   CircularCountDownTimer({
@@ -61,66 +60,36 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
     with TickerProviderStateMixin {
   AnimationController controller;
 
-  bool flag = true;
-  String time;
-
-  void _setTimeFormat(Duration duration) {
-    if (duration.inHours != 0) {
-      // For HH:mm:ss format
-      time =
-          '${duration.inHours}:${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+  String get time {
+    if (widget.isReverse && controller.isDismissed) {
+      return '0:00';
     } else {
-      // For mm:ss format
-      time =
-          '${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+      Duration duration = controller.duration * controller.value;
+      return _getTime(duration);
+    }
+  }
+
+  void _startAnimation() {
+    if (widget.isReverse) {
+      controller.reverse(from: 1.0);
+    } else {
+      controller.forward();
     }
   }
 
   String _getTime(Duration duration) {
-    if (widget.isReverse == null || !widget.isReverse) {
-      // For Forward Countdown
-      Duration forwardDuration = Duration(seconds: widget.duration);
-      if (forwardDuration.inSeconds == duration.inSeconds && flag) {
-        flag = false;
-        _callOnComplete();
-        return time;
-      }
-      return time;
-    } else {
-      // For Reverse Countdown
-      if (controller.isDismissed && flag) {
-        flag = false;
-        _callOnComplete();
-        return '0:00';
-      }
-      return time;
+    // For HH:mm:ss format
+    if (duration.inHours != 0) {
+      return '${duration.inHours}:${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    }
+    // For mm:ss format
+    else {
+      return '${duration.inMinutes % 60}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
     }
   }
 
-  void _callOnComplete() {
-    if (widget.onComplete != null) {
-      SchedulerBinding.instance.addPostFrameCallback(
-        (_) => widget.onComplete(),
-      );
-    }
-  }
-
-  void _setAnimation() {
-    if (widget.isReverse == null || !widget.isReverse) {
-      // Forward Animation
-      controller.forward(from: controller.value);
-    } else {
-      // Reverse Animation
-      controller.reverse(
-        from: controller.value == 0.0 ? 1.0 : controller.value,
-      );
-    }
-  }
-
-  void _updateTime() {
-    Duration duration = controller.duration * controller.value;
-    _setTimeFormat(duration);
-    time = _getTime(duration);
+  void _onComplete() {
+    if (widget.onComplete != null) widget.onComplete();
   }
 
   @override
@@ -131,13 +100,27 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
       duration: Duration(seconds: widget.duration),
     );
 
-    _setAnimation();
+    controller.addStatusListener((status) {
+      switch (status) {
+        case AnimationStatus.dismissed:
+          _onComplete();
+          break;
+        case AnimationStatus.completed:
+
+          /// [AnimationController]'s value is manually set to [1.0] that's why [AnimationStatus.completed] is invoked here this animation is [isReverse]
+          /// Only call the [_onComplete] block when the animation is not reversed.
+          if (!widget.isReverse) _onComplete();
+          break;
+        default:
+        // Do nothing
+      }
+    });
+
+    _startAnimation();
   }
 
   @override
   Widget build(BuildContext context) {
-    _updateTime();
-
     return Container(
       width: widget.width,
       height: widget.height,

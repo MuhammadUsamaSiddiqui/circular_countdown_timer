@@ -19,3 +19,11 @@
 ## [0.0.4] - Jun 15 2020.
 
 * Added support to show **Hours** in Countdown Text.
+
+## [0.0.5] - Aug 15 2020.
+
+* Contribution by [Joshua de Guzman](https://github.com/joshuadeguzman)
+    * Added optional bool parameter **isTimerTextShown** to hide and show Timer Text.
+    * Refactor Logic for Animation.
+
+* Updated **README**.

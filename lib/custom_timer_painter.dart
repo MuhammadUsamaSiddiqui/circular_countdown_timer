@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
 class CustomTimerPainter extends CustomPainter {
-  CustomTimerPainter({
-    this.animation,
-    this.fillColor,
-    this.color,
-    this.strokeWidth,
-  }) : super(repaint: animation);
+  CustomTimerPainter(
+      {this.animation,
+      this.fillColor,
+      this.color,
+      this.strokeWidth,
+      this.backgroundColor})
+      : super(repaint: animation);
 
   final Animation<double> animation;
-  final Color fillColor, color;
+  final Color fillColor, color, backgroundColor;
   final double strokeWidth;
 
   @override
@@ -25,6 +26,12 @@ class CustomTimerPainter extends CustomPainter {
     paint.color = color;
     double progress = (1.0 - animation.value) * 2 * math.pi;
     canvas.drawArc(Offset.zero & size, math.pi * 1.5, -progress, false, paint);
+
+    if (backgroundColor != null) {
+      final backgroundPaint = Paint();
+      backgroundPaint.color = backgroundColor;
+      canvas.drawCircle(size.center(Offset.zero), size.width / 2.2, backgroundPaint);
+    }
   }
 
   @override

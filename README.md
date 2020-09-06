@@ -6,6 +6,11 @@ Make an animated circular countdown using Circular Countdown Timer.
 
 To use this plugin, add `circular_countdown_timer` as a [dependency in your pubspec.yaml file.](https://flutter.dev/docs/development/packages-and-plugins/using-packages)
 
+# Features
+* Forward Countdown Timer.
+* Reverse Countdown Timer.
+* Pause, Resume and Restart Timer.
+
 # Example
 
 ```dart
@@ -38,50 +43,72 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  CountDownController _controller = CountDownController();
+  bool _isPause = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text(widget.title),
-        ),
-        body: Center(
-            child: CircularCountDownTimer(
-          // Countdown duration in Seconds
-          duration: 10,
+      appBar: AppBar(
+        title: Text(widget.title),
+      ),
+      body: Center(
+          child: CircularCountDownTimer(
+        // Countdown duration in Seconds
+        duration: 10,
 
-          // Width of the Countdown Widget
-          width: MediaQuery.of(context).size.width / 2,
+        // Controller to control (i.e Pause, Resume, Restart) the Countdown
+        controller: _controller,
 
-          // Height of the Countdown Widget
-          height: MediaQuery.of(context).size.height / 2,
+        // Width of the Countdown Widget
+        width: MediaQuery.of(context).size.width / 2,
 
-          // Default Color for Countdown Timer
-          color: Colors.white,
+        // Height of the Countdown Widget
+        height: MediaQuery.of(context).size.height / 2,
 
-          // Filling Color for Countdown Timer
-          fillColor: Colors.red,
+        // Default Color for Countdown Timer
+        color: Colors.white,
 
-          // Border Thickness of the Countdown Circle
-          strokeWidth: 5.0,
+        // Filling Color for Countdown Timer
+        fillColor: Colors.red,
 
-          // Text Style for Countdown Text
-          textStyle: TextStyle(
-              fontSize: 22.0,
-              color: Colors.black87,
-              fontWeight: FontWeight.bold),
+        // Background Color for Countdown Widget
+        backgroundColor: null,
 
-          // true for reverse countdown (max to 0), false for forward countdown (0 to max)
-          isReverse: false,
+        // Border Thickness of the Countdown Circle
+        strokeWidth: 5.0,
 
-          // Optional [bool] to hide the [Text] in this widget.
-          isTimerTextShown: true,
+        // Text Style for Countdown Text
+        textStyle: TextStyle(
+            fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
 
-          // Function which will execute when the Countdown Ends
-          onComplete: () {
-            // Here, do whatever you want
-            print('Countdown Ended');
+        // true for reverse countdown (max to 0), false for forward countdown (0 to max)
+        isReverse: false,
+
+        // Optional [bool] to hide the [Text] in this widget.
+        isTimerTextShown: true,
+
+        // Function which will execute when the Countdown Ends
+        onComplete: () {
+          // Here, do whatever you want
+          print('Countdown Ended');
+        },
+      )),
+      floatingActionButton: FloatingActionButton.extended(
+          onPressed: () {
+            setState(() {
+              if (_isPause) {
+                _isPause = false;
+                _controller.resume();
+              } else {
+                _isPause = true;
+                _controller.pause();
+              }
+            });
           },
-        )));
+          icon: Icon(_isPause ? Icons.play_arrow : Icons.pause),
+          label: Text(_isPause ? "Resume" : "Pause")),
+    );
   }
 }
 ```

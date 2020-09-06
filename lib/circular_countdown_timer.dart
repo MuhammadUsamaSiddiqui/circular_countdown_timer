@@ -11,6 +11,9 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Default Color for Countdown Timer
   final Color color;
 
+  /// Background Color for Countdown Widget
+  final Color backgroundColor;
+
   /// Function which will execute when the Countdown Ends
   final Function onComplete;
 
@@ -35,46 +38,56 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Optional [bool] to hide the [Text] in this widget.
   final bool isTimerTextShown;
 
-  CircularCountDownTimer({
-    @required this.width,
-    @required this.height,
-    @required this.duration,
-    @required this.fillColor,
-    @required this.color,
-    this.isReverse,
-    this.onComplete,
-    this.strokeWidth,
-    this.textStyle,
-    this.isTimerTextShown = true,
-  })  : assert(width != null),
+  /// Controller to control (i.e Pause, Resume, Restart) the Countdown
+  final CountDownController controller;
+
+  CircularCountDownTimer(
+      {@required this.width,
+      @required this.height,
+      @required this.duration,
+      @required this.fillColor,
+      @required this.color,
+      this.backgroundColor,
+      this.isReverse,
+      this.onComplete,
+      this.strokeWidth,
+      this.textStyle,
+      this.isTimerTextShown = true,
+      this.controller})
+      : assert(width != null),
         assert(height != null),
         assert(duration != null),
         assert(fillColor != null),
         assert(color != null);
 
   @override
-  _CircularCountDownTimerState createState() => _CircularCountDownTimerState();
+  CircularCountDownTimerState createState() => CircularCountDownTimerState();
 }
 
-class _CircularCountDownTimerState extends State<CircularCountDownTimer>
+class CircularCountDownTimerState extends State<CircularCountDownTimer>
     with TickerProviderStateMixin {
-  AnimationController controller;
+  AnimationController _controller;
 
   String get time {
-    if (widget.isReverse && controller.isDismissed) {
+    if (widget.isReverse && _controller.isDismissed) {
       return '0:00';
     } else {
-      Duration duration = controller.duration * controller.value;
+      Duration duration = _controller.duration * _controller.value;
       return _getTime(duration);
     }
   }
 
-  void _startAnimation() {
+  void _setAnimation() {
     if (widget.isReverse) {
-      controller.reverse(from: 1.0);
+      _controller.reverse(from: 1.0);
     } else {
-      controller.forward();
+      _controller.forward();
     }
+  }
+
+  void _setController() {
+    widget.controller?._state = this;
+    widget.controller?._isReverse = widget.isReverse;
   }
 
   String _getTime(Duration duration) {
@@ -95,12 +108,12 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(
+    _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: widget.duration),
     );
 
-    controller.addStatusListener((status) {
+    _controller.addStatusListener((status) {
       switch (status) {
         case AnimationStatus.dismissed:
           _onComplete();
@@ -116,7 +129,8 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
       }
     });
 
-    _startAnimation();
+    _setAnimation();
+    _setController();
   }
 
   @override
@@ -125,7 +139,7 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
       width: widget.width,
       height: widget.height,
       child: AnimatedBuilder(
-          animation: controller,
+          animation: _controller,
           builder: (context, child) {
             return Stack(
               children: <Widget>[
@@ -144,11 +158,12 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
                                 Positioned.fill(
                                   child: CustomPaint(
                                     painter: CustomTimerPainter(
-                                      animation: controller,
-                                      fillColor: widget.fillColor,
-                                      color: widget.color,
-                                      strokeWidth: widget.strokeWidth,
-                                    ),
+                                        animation: _controller,
+                                        fillColor: widget.fillColor,
+                                        color: widget.color,
+                                        strokeWidth: widget.strokeWidth,
+                                        backgroundColor:
+                                            widget.backgroundColor),
                                   ),
                                 ),
                                 widget.isTimerTextShown
@@ -180,8 +195,35 @@ class _CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   @override
   void dispose() {
-    controller.stop();
-    controller.dispose();
+    _controller.stop();
+    _controller.dispose();
     super.dispose();
+  }
+}
+
+// Controller for controlling Countdown Widget (i.e Pause, Resume, Restart)
+class CountDownController {
+  CircularCountDownTimerState _state;
+  bool _isReverse;
+
+  void pause() {
+    _state._controller?.stop(canceled: false);
+  }
+
+  void resume() {
+    if (_isReverse) {
+      _state._controller
+          ?.reverse(from: _state._controller.value = _state._controller.value);
+    } else {
+      _state._controller?.forward(from: _state._controller.value);
+    }
+  }
+
+  void restart() {
+    if (_isReverse) {
+      _state._controller?.reverse(from: 1);
+    } else {
+      _state._controller?.forward(from: 0);
+    }
   }
 }

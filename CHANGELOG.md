@@ -1,11 +1,18 @@
-## [0.0.1] - Apr 28 2020.
+## [0.0.6] - Sep 06 2020.
+* Added optional Color parameter **backgroundColor** to change Background Color of Countdown Widget.
+* Added optional CountDownController parameter **controller** to control (i.e Pause, Resume, Restart) the Countdown Timer.
 
-* Initial release.
+## [0.0.5] - Aug 15 2020.
 
-## [0.0.2] - Jun 08 2020.
+* Contribution by [Joshua de Guzman](https://github.com/joshuadeguzman)
+    * Added optional bool parameter **isTimerTextShown** to hide and show Timer Text.
+    * Refactor Logic for Animation.
 
-* Fixed Crash on **onCountDownComplete**.
 * Updated **README**.
+
+## [0.0.4] - Jun 15 2020.
+
+* Added support to show **Hours** in Countdown Text.
 
 ## [0.0.3] - Jun 13 2020.
 
@@ -16,14 +23,11 @@
 
 * Updated **README**.
 
-## [0.0.4] - Jun 15 2020.
+## [0.0.2] - Jun 08 2020.
 
-* Added support to show **Hours** in Countdown Text.
-
-## [0.0.5] - Aug 15 2020.
-
-* Contribution by [Joshua de Guzman](https://github.com/joshuadeguzman)
-    * Added optional bool parameter **isTimerTextShown** to hide and show Timer Text.
-    * Refactor Logic for Animation.
-
+* Fixed Crash on **onCountDownComplete**.
 * Updated **README**.
+
+## [0.0.1] - Apr 28 2020.
+
+* Initial release.

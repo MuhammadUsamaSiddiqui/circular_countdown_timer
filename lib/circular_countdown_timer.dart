@@ -219,8 +219,9 @@ class CountDownController {
     }
   }
 
-  void restart() {
+  void restart(s) {
     if (_isReverse) {
+       _state._controller.duration = Duration(seconds: s);
       _state._controller?.reverse(from: 1);
     } else {
       _state._controller?.forward(from: 0);

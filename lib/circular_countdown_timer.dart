@@ -5,6 +5,9 @@ import 'custom_timer_painter.dart';
 
 /// Create a Circular Countdown Timer
 class CircularCountDownTimer extends StatefulWidget {
+  /// Key for Countdown Timer
+  final Key key;
+
   /// Filling Color for Countdown Timer
   final Color fillColor;
 
@@ -35,6 +38,9 @@ class CircularCountDownTimer extends StatefulWidget {
   /// true for reverse countdown (max to 0), false for forward countdown (0 to max)
   final bool isReverse;
 
+  /// true for reverse animation, false for forward animation
+  final bool isReverseAnimation;
+
   /// Optional [bool] to hide the [Text] in this widget.
   final bool isTimerTextShown;
 
@@ -48,10 +54,12 @@ class CircularCountDownTimer extends StatefulWidget {
       @required this.fillColor,
       @required this.color,
       this.backgroundColor,
-      this.isReverse,
+      this.isReverse = false,
+      this.isReverseAnimation = false,
       this.onComplete,
       this.strokeWidth,
       this.textStyle,
+      this.key,
       this.isTimerTextShown = true,
       this.controller})
       : assert(width != null),
@@ -67,6 +75,7 @@ class CircularCountDownTimer extends StatefulWidget {
 class CircularCountDownTimerState extends State<CircularCountDownTimer>
     with TickerProviderStateMixin {
   AnimationController _controller;
+  Animation<double> _countDownAnimation;
 
   String get time {
     if (widget.isReverse && _controller.isDismissed) {
@@ -79,9 +88,17 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   void _setAnimation() {
     if (widget.isReverse) {
-      _controller.reverse(from: 1.0);
+      _controller.reverse(from: 1);
     } else {
       _controller.forward();
+    }
+  }
+
+  void _setAnimationDirection() {
+    if ((!widget.isReverse && widget.isReverseAnimation) ||
+        (widget.isReverse && !widget.isReverseAnimation)) {
+      _countDownAnimation =
+          Tween<double>(begin: 1, end: 0).animate(_controller);
     }
   }
 
@@ -130,6 +147,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     });
 
     _setAnimation();
+    _setAnimationDirection();
     _setController();
   }
 
@@ -158,7 +176,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                                 Positioned.fill(
                                   child: CustomPaint(
                                     painter: CustomTimerPainter(
-                                        animation: _controller,
+                                        animation:
+                                            _countDownAnimation ?? _controller,
                                         fillColor: widget.fillColor,
                                         color: widget.color,
                                         strokeWidth: widget.strokeWidth,
@@ -206,10 +225,12 @@ class CountDownController {
   CircularCountDownTimerState _state;
   bool _isReverse;
 
+  // This Method Pauses the Countdown Timer
   void pause() {
     _state._controller?.stop(canceled: false);
   }
 
+  // This Method Resumes the Countdown Timer
   void resume() {
     if (_isReverse) {
       _state._controller
@@ -219,7 +240,13 @@ class CountDownController {
     }
   }
 
-  void restart() {
+  /*
+  * This Method Restarts the Countdown Timer
+  * Here optional int parameter **duration** is the updated duration for countdown timer on Restart
+  */
+  void restart({int duration}) {
+    _state._controller.duration =
+        Duration(seconds: duration ?? _state._controller.duration.inSeconds);
     if (_isReverse) {
       _state._controller?.reverse(from: 1);
     } else {

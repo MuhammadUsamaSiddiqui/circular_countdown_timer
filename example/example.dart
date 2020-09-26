@@ -38,46 +38,49 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
           child: CircularCountDownTimer(
-            // Countdown duration in Seconds
-            duration: 10,
+        // Countdown duration in Seconds
+        duration: 10,
 
-            // Controller to control (i.e Pause, Resume, Restart) the Countdown
-            controller: _controller,
+        // Controller to control (i.e Pause, Resume, Restart) the Countdown
+        controller: _controller,
 
-            // Width of the Countdown Widget
-            width: MediaQuery.of(context).size.width / 2,
+        // Width of the Countdown Widget
+        width: MediaQuery.of(context).size.width / 2,
 
-            // Height of the Countdown Widget
-            height: MediaQuery.of(context).size.height / 2,
+        // Height of the Countdown Widget
+        height: MediaQuery.of(context).size.height / 2,
 
-            // Default Color for Countdown Timer
-            color: Colors.white,
+        // Default Color for Countdown Timer
+        color: Colors.white,
 
-            // Filling Color for Countdown Timer
-            fillColor: Colors.red,
+        // Filling Color for Countdown Timer
+        fillColor: Colors.red,
 
-            // Background Color for Countdown Widget
-            backgroundColor: null,
+        // Background Color for Countdown Widget
+        backgroundColor: null,
 
-            // Border Thickness of the Countdown Circle
-            strokeWidth: 5.0,
+        // Border Thickness of the Countdown Circle
+        strokeWidth: 5.0,
 
-            // Text Style for Countdown Text
-            textStyle: TextStyle(
-                fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
+        // Text Style for Countdown Text
+        textStyle: TextStyle(
+            fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
 
-            // true for reverse countdown (max to 0), false for forward countdown (0 to max)
-            isReverse: false,
+        // true for reverse countdown (max to 0), false for forward countdown (0 to max)
+        isReverse: false,
 
-            // Optional [bool] to hide the [Text] in this widget.
-            isTimerTextShown: true,
+        // true for reverse animation, false for forward animation
+        isReverseAnimation: false,
 
-            // Function which will execute when the Countdown Ends
-            onComplete: () {
-              // Here, do whatever you want
-              print('Countdown Ended');
-            },
-          )),
+        // Optional [bool] to hide the [Text] in this widget.
+        isTimerTextShown: true,
+
+        // Function which will execute when the Countdown Ends
+        onComplete: () {
+          // Here, do whatever you want
+          print('Countdown Ended');
+        },
+      )),
       floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             setState(() {

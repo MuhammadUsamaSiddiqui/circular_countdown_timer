@@ -85,6 +85,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // true for reverse countdown (max to 0), false for forward countdown (0 to max)
         isReverse: false,
 
+        // true for reverse animation, false for forward animation
+        isReverseAnimation: false,
+
         // Optional [bool] to hide the [Text] in this widget.
         isTimerTextShown: true,
 

@@ -1,3 +1,13 @@
+## [0.0.7] - Sep 26 2020.
+
+* Added Optional Parameters:
+    * Key named **key** for Countdown Timer.
+    * bool named **isReverseAnimation** to handle Animation Direction i.e Forward or Reverse.
+
+* Added optional int parameter named **duration** in **restart** method of CountDownController, to restart the countdown with new duration.
+
+* Updated **README**.
+
 ## [0.0.6] - Sep 06 2020.
 * Added optional Color parameter **backgroundColor** to change Background Color of Countdown Widget.
 * Added optional CountDownController parameter **controller** to control (i.e Pause, Resume, Restart) the Countdown Timer.

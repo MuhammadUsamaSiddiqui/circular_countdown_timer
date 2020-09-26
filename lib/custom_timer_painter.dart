@@ -30,7 +30,8 @@ class CustomTimerPainter extends CustomPainter {
     if (backgroundColor != null) {
       final backgroundPaint = Paint();
       backgroundPaint.color = backgroundColor;
-      canvas.drawCircle(size.center(Offset.zero), size.width / 2.2, backgroundPaint);
+      canvas.drawCircle(
+          size.center(Offset.zero), size.width / 2.2, backgroundPaint);
     }
   }
 

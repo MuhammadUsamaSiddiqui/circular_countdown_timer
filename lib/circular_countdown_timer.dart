@@ -32,6 +32,9 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Border Thickness of the Countdown Circle
   final double strokeWidth;
 
+  /// Begin and end contours with a flat edge and no extension
+  final StrokeCap strokeCap;
+
   /// Text Style for Countdown Text
   final TextStyle textStyle;
 
@@ -58,6 +61,7 @@ class CircularCountDownTimer extends StatefulWidget {
       this.isReverseAnimation = false,
       this.onComplete,
       this.strokeWidth,
+      this.strokeCap,
       this.textStyle,
       this.key,
       this.isTimerTextShown = true,
@@ -66,7 +70,8 @@ class CircularCountDownTimer extends StatefulWidget {
         assert(height != null),
         assert(duration != null),
         assert(fillColor != null),
-        assert(color != null);
+        assert(color != null),
+        super(key: key);
 
   @override
   CircularCountDownTimerState createState() => CircularCountDownTimerState();
@@ -181,6 +186,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                                         fillColor: widget.fillColor,
                                         color: widget.color,
                                         strokeWidth: widget.strokeWidth,
+                                        strokeCap: widget.strokeCap,
                                         backgroundColor:
                                             widget.backgroundColor),
                                   ),
@@ -220,17 +226,17 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   }
 }
 
-// Controller for controlling Countdown Widget (i.e Pause, Resume, Restart)
+/// Controller for controlling Countdown Widget (i.e Pause, Resume, Restart)
 class CountDownController {
   CircularCountDownTimerState _state;
   bool _isReverse;
 
-  // This Method Pauses the Countdown Timer
+  /// This Method Pauses the Countdown Timer
   void pause() {
     _state._controller?.stop(canceled: false);
   }
 
-  // This Method Resumes the Countdown Timer
+  /// This Method Resumes the Countdown Timer
   void resume() {
     if (_isReverse) {
       _state._controller
@@ -240,10 +246,9 @@ class CountDownController {
     }
   }
 
-  /*
-  * This Method Restarts the Countdown Timer
-  * Here optional int parameter **duration** is the updated duration for countdown timer on Restart
-  */
+  /// This Method Restarts the Countdown Timer,
+  /// Here optional int parameter **duration** is the updated duration for countdown timer
+
   void restart({int duration}) {
     _state._controller.duration =
         Duration(seconds: duration ?? _state._controller.duration.inSeconds);
@@ -252,5 +257,13 @@ class CountDownController {
     } else {
       _state._controller?.forward(from: 0);
     }
+  }
+
+  /// This Method returns the **Current Time** of Countdown Timer i.e
+  /// Time Used in terms of **Forward Countdown** and Time Left in terms of **Reverse Countdown**
+
+  String getTime() {
+    return _state
+        ._getTime(_state._controller.duration * _state._controller?.value);
   }
 }

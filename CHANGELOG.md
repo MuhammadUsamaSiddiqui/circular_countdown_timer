@@ -1,3 +1,9 @@
+## [0.0.8] - Dec 05 2020.
+
+* Fixed **key** issue.
+* Added **getTime** method in CountDownController to get the **Current Time** of Countdown Timer.
+* Added Optional Parameter StrokeCap named **strokeCap** for countdown begin and end contours.
+
 ## [0.0.7] - Sep 26 2020.
 
 * Added Optional Parameters:
@@ -6,9 +12,8 @@
 
 * Added optional int parameter named **duration** in **restart** method of CountDownController, to restart the countdown with new duration.
 
-* Updated **README**.
-
 ## [0.0.6] - Sep 06 2020.
+
 * Added optional Color parameter **backgroundColor** to change Background Color of Countdown Widget.
 * Added optional CountDownController parameter **controller** to control (i.e Pause, Resume, Restart) the Countdown Timer.
 
@@ -17,8 +22,6 @@
 * Contribution by [Joshua de Guzman](https://github.com/joshuadeguzman)
     * Added optional bool parameter **isTimerTextShown** to hide and show Timer Text.
     * Refactor Logic for Animation.
-
-* Updated **README**.
 
 ## [0.0.4] - Jun 15 2020.
 
@@ -31,12 +34,9 @@
     * **reverseOrder** to **isReverse**.
     * **onCountDownComplete** to **onComplete**.
 
-* Updated **README**.
-
 ## [0.0.2] - Jun 08 2020.
 
 * Fixed Crash on **onCountDownComplete**.
-* Updated **README**.
 
 ## [0.0.1] - Apr 28 2020.
 

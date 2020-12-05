@@ -62,6 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // Border Thickness of the Countdown Circle
         strokeWidth: 5.0,
 
+        // Begin and end contours with a flat edge and no extension
+        strokeCap: StrokeCap.butt,
+
         // Text Style for Countdown Text
         textStyle: TextStyle(
             fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),

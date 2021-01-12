@@ -23,6 +23,9 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Countdown Duration in Seconds
   final int duration;
 
+  /// Countdown initial elapsed Duration in Seconds
+  final int initialDuration;
+
   /// Width of the Countdown Widget
   final double width;
 
@@ -50,23 +53,24 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Controller to control (i.e Pause, Resume, Restart) the Countdown
   final CountDownController controller;
 
-  CircularCountDownTimer(
-      {@required this.width,
-      @required this.height,
-      @required this.duration,
-      @required this.fillColor,
-      @required this.color,
-      this.backgroundColor,
-      this.isReverse = false,
-      this.isReverseAnimation = false,
-      this.onComplete,
-      this.strokeWidth,
-      this.strokeCap,
-      this.textStyle,
-      this.key,
-      this.isTimerTextShown = true,
-      this.controller})
-      : assert(width != null),
+  CircularCountDownTimer({
+    @required this.width,
+    @required this.height,
+    @required this.duration,
+    @required this.fillColor,
+    @required this.color,
+    this.backgroundColor,
+    this.isReverse = false,
+    this.isReverseAnimation = false,
+    this.onComplete,
+    this.strokeWidth,
+    this.strokeCap,
+    this.textStyle,
+    this.key,
+    this.isTimerTextShown = true,
+    this.controller,
+    this.initialDuration = 0,
+  })  : assert(width != null),
         assert(height != null),
         assert(duration != null),
         assert(fillColor != null),
@@ -110,6 +114,10 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   void _setController() {
     widget.controller?._state = this;
     widget.controller?._isReverse = widget.isReverse;
+    if (widget.initialDuration > 0) {
+      _controller?.value = (widget.initialDuration / widget.duration);
+      widget.controller?.resume();
+    }
   }
 
   String _getTime(Duration duration) {

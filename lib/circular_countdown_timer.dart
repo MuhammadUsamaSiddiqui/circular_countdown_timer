@@ -75,6 +75,7 @@ class CircularCountDownTimer extends StatefulWidget {
         assert(duration != null),
         assert(fillColor != null),
         assert(color != null),
+        assert(initialDuration <= duration),
         super(key: key);
 
   @override
@@ -115,7 +116,11 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     widget.controller?._state = this;
     widget.controller?._isReverse = widget.isReverse;
     if (widget.initialDuration > 0) {
-      _controller?.value = (widget.initialDuration / widget.duration);
+      if (widget.isReverse) {
+        _controller?.value = 1 - (widget.initialDuration / widget.duration);
+      } else {
+        _controller?.value = (widget.initialDuration / widget.duration);
+      }
       widget.controller?.resume();
     }
   }

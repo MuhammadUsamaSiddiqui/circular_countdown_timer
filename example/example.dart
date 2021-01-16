@@ -69,6 +69,9 @@ class _MyHomePageState extends State<MyHomePage> {
         textStyle: TextStyle(
             fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
 
+        // Optional [String] to format Countdown Text
+        textFormat: CountdownTextFormat.HH_MM_SS,
+
         // true for reverse countdown (max to 0), false for forward countdown (0 to max)
         isReverse: false,
 
@@ -77,6 +80,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
         // Optional [bool] to hide the [Text] in this widget.
         isTimerTextShown: true,
+
+        // Optional [bool] to handle timer start
+        autoStart: true,
+
+        // Function which will execute when the Countdown Starts
+        onStart: () {
+          // Here, do whatever you want
+          print('Countdown Started');
+        },
 
         // Function which will execute when the Countdown Ends
         onComplete: () {

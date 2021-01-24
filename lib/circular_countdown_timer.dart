@@ -3,60 +3,60 @@ library circular_countdown_timer;
 import 'package:flutter/material.dart';
 import 'custom_timer_painter.dart';
 
-/// Create a Circular Countdown Timer
+/// Create a Circular Countdown Timer.
 class CircularCountDownTimer extends StatefulWidget {
-  /// Key for Countdown Timer
+  /// Key for Countdown Timer.
   final Key key;
 
-  /// Filling Color for Countdown Timer
+  /// Filling Color for Countdown Widget.
   final Color fillColor;
 
-  /// Default Color for Countdown Timer
+  /// Ring Color for Countdown Widget.
   final Color color;
 
-  /// Background Color for Countdown Widget
+  /// Background Color for Countdown Widget.
   final Color backgroundColor;
 
-  /// Function which will execute when the Countdown Ends
+  /// This Callback will execute when the Countdown Ends.
   final VoidCallback onComplete;
 
-  /// Function which will execute when the Countdown Starts
+  /// This Callback will execute when the Countdown Starts.
   final VoidCallback onStart;
 
-  /// Countdown Duration in Seconds
+  /// Countdown duration in Seconds.
   final int duration;
 
-  /// Width of the Countdown Widget
+  /// Width of the Countdown Widget.
   final double width;
 
-  /// Height of the Countdown Widget
+  /// Height of the Countdown Widget.
   final double height;
 
-  /// Border Thickness of the Countdown Circle
+  /// Border Thickness of the Countdown Ring.
   final double strokeWidth;
 
-  /// Begin and end contours with a flat edge and no extension
+  /// Begin and end contours with a flat edge and no extension.
   final StrokeCap strokeCap;
 
-  /// Text Style for Countdown Text
+  /// Text Style for Countdown Text.
   final TextStyle textStyle;
 
-  /// Optional [String] to format Countdown Text
+  /// Format for the Countdown Text.
   final String textFormat;
 
-  /// true for reverse countdown (max to 0), false for forward countdown (0 to max)
+  /// Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
   final bool isReverse;
 
-  /// true for reverse animation, false for forward animation
+  /// Handles Animation Direction (true for Reverse Animation, false for Forward Animation).
   final bool isReverseAnimation;
 
-  /// Optional [bool] to hide the [Text] in this widget.
+  /// Handles visibility of the Countdown Text.
   final bool isTimerTextShown;
 
-  /// Controller to control (i.e Pause, Resume, Restart) the Countdown
+  /// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
   final CountDownController controller;
 
-  /// Optional [bool] to handle timer start
+  /// Handles the timer start.
   final bool autoStart;
 
   CircularCountDownTimer(
@@ -130,7 +130,6 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   void _setController() {
     widget.controller?._state = this;
     widget.controller?._isReverse = widget.isReverse;
-    widget.controller?._autoStart = widget.autoStart;
   }
 
   String _getTime(Duration duration) {
@@ -259,14 +258,18 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   }
 }
 
-/// Controller for controlling Countdown Widget (i.e Pause, Resume, Restart)
+/// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
 class CountDownController {
   CircularCountDownTimerState _state;
-  bool _isReverse, _autoStart;
+  bool _isReverse;
 
   /// This Method Starts the Countdown Timer
   void start() {
-    resume();
+    if (_isReverse) {
+      _state._controller?.reverse(from: 1);
+    } else {
+      _state._controller?.forward(from: 0);
+    }
   }
 
   /// This Method Pauses the Countdown Timer
@@ -277,12 +280,9 @@ class CountDownController {
   /// This Method Resumes the Countdown Timer
   void resume() {
     if (_isReverse) {
-      _state._controller?.reverse(
-          from: _state._controller.value =
-              _autoStart ? _state._controller.value : 1);
+      _state._controller?.reverse(from: _state._controller.value);
     } else {
-      _state._controller
-          ?.forward(from: _autoStart ? _state._controller.value : 0);
+      _state._controller?.forward(from: _state._controller.value);
     }
   }
 

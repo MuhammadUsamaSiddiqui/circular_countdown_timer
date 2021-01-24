@@ -10,7 +10,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Circular Countdown Timer Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.purple,
       ),
       home: MyHomePage(title: 'Circular Countdown Timer'),
     );
@@ -28,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   CountDownController _controller = CountDownController();
-  bool _isPause = false;
+  int _duration = 10;
 
   @override
   Widget build(BuildContext context) {
@@ -38,78 +38,99 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
           child: CircularCountDownTimer(
-        // Countdown duration in Seconds
-        duration: 10,
+        // Countdown duration in Seconds.
+        duration: _duration,
 
-        // Controller to control (i.e Pause, Resume, Restart) the Countdown
+        // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
         controller: _controller,
 
-        // Width of the Countdown Widget
+        // Width of the Countdown Widget.
         width: MediaQuery.of(context).size.width / 2,
 
-        // Height of the Countdown Widget
+        // Height of the Countdown Widget.
         height: MediaQuery.of(context).size.height / 2,
 
-        // Default Color for Countdown Timer
-        color: Colors.white,
+        // Ring Color for Countdown Widget.
+        color: Colors.grey[300],
 
-        // Filling Color for Countdown Timer
-        fillColor: Colors.red,
+        // Filling Color for Countdown Widget.
+        fillColor: Colors.purpleAccent[100],
 
-        // Background Color for Countdown Widget
-        backgroundColor: null,
+        // Background Color for Countdown Widget.
+        backgroundColor: Colors.purple[500],
 
-        // Border Thickness of the Countdown Circle
-        strokeWidth: 5.0,
+        // Border Thickness of the Countdown Ring.
+        strokeWidth: 20.0,
 
-        // Begin and end contours with a flat edge and no extension
-        strokeCap: StrokeCap.butt,
+        // Begin and end contours with a flat edge and no extension.
+        strokeCap: StrokeCap.round,
 
-        // Text Style for Countdown Text
+        // Text Style for Countdown Text.
         textStyle: TextStyle(
-            fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
+            fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
 
-        // Optional [String] to format Countdown Text
-        textFormat: CountdownTextFormat.HH_MM_SS,
+        // Format for the Countdown Text.
+        textFormat: CountdownTextFormat.SS,
 
-        // true for reverse countdown (max to 0), false for forward countdown (0 to max)
+        // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
         isReverse: false,
 
-        // true for reverse animation, false for forward animation
+        // Handles Animation Direction (true for Reverse Animation, false for Forward Animation).
         isReverseAnimation: false,
 
-        // Optional [bool] to hide the [Text] in this widget.
+        // Handles visibility of the Countdown Text.
         isTimerTextShown: true,
 
-        // Optional [bool] to handle timer start
-        autoStart: true,
+        // Handles the timer start.
+        autoStart: false,
 
-        // Function which will execute when the Countdown Starts
+        // This Callback will execute when the Countdown Starts.
         onStart: () {
           // Here, do whatever you want
           print('Countdown Started');
         },
 
-        // Function which will execute when the Countdown Ends
+        // This Callback will execute when the Countdown Ends.
         onComplete: () {
           // Here, do whatever you want
           print('Countdown Ended');
         },
       )),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            setState(() {
-              if (_isPause) {
-                _isPause = false;
-                _controller.resume();
-              } else {
-                _isPause = true;
-                _controller.pause();
-              }
-            });
-          },
-          icon: Icon(_isPause ? Icons.play_arrow : Icons.pause),
-          label: Text(_isPause ? "Resume" : "Pause")),
+      floatingActionButton: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: 30,
+          ),
+          _button(title: "Start", onPressed: () => _controller.start()),
+          SizedBox(
+            width: 10,
+          ),
+          _button(title: "Pause", onPressed: () => _controller.pause()),
+          SizedBox(
+            width: 10,
+          ),
+          _button(title: "Resume", onPressed: () => _controller.resume()),
+          SizedBox(
+            width: 10,
+          ),
+          _button(
+              title: "Restart",
+              onPressed: () => _controller.restart(duration: _duration))
+        ],
+      ),
     );
+  }
+
+  _button({String title, VoidCallback onPressed}) {
+    return Expanded(
+        child: RaisedButton(
+      child: Text(
+        title,
+        style: TextStyle(color: Colors.white),
+      ),
+      onPressed: onPressed,
+      color: Colors.purple,
+    ));
   }
 }

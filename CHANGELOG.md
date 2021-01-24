@@ -1,3 +1,10 @@
+## [0.0.9] - Jan 24 2021.
+
+* Added Optional Parameter:
+    * bool named **autoStart** to handle timer start.
+    * String named **textFormat** to format Countdown Text.
+    * VoidCallback named **onStart** which will execute when the Countdown Starts.
+
 ## [0.0.8] - Dec 05 2020.
 
 * Fixed **key** issue.
@@ -6,7 +13,7 @@
 
 ## [0.0.7] - Sep 26 2020.
 
-* Added Optional Parameters:
+* Added Optional Parameter:
     * Key named **key** for Countdown Timer.
     * bool named **isReverseAnimation** to handle Animation Direction i.e Forward or Reverse.
 
@@ -29,7 +36,7 @@
 
 ## [0.0.3] - Jun 13 2020.
 
-* Changed Parameters name from:
+* Changed Parameter name from:
     * **countdownTextStyle** to **textStyle**.
     * **reverseOrder** to **isReverse**.
     * **onCountDownComplete** to **onComplete**.

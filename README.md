@@ -1,141 +1,67 @@
-# Circular Countdown Timer
+## Circular Countdown Timer
 
 Make an animated circular countdown using Circular Countdown Timer.
 
-# Getting Started
+## Getting Started
 
 To use this plugin, add `circular_countdown_timer` as a [dependency in your pubspec.yaml file.](https://flutter.dev/docs/development/packages-and-plugins/using-packages)
 
-# Features
+## Features
 * Forward Countdown Timer.
 * Reverse Countdown Timer.
-* Pause, Resume and Restart Timer.
+* Start, Pause, Resume and Restart Timer.
 
-# Example
+## Usage
 
 ```dart
-import 'package:flutter/material.dart';
-import 'package:circular_countdown_timer/circular_countdown_timer.dart';
-
-void main() => runApp(MyApp());
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Circular Countdown Timer Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Circular Countdown Timer'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  CountDownController _controller = CountDownController();
-  bool _isPause = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-          child: CircularCountDownTimer(
-        // Countdown duration in Seconds
-        duration: 10,
-
-        // Controller to control (i.e Pause, Resume, Restart) the Countdown
-        controller: _controller,
-
-        // Width of the Countdown Widget
-        width: MediaQuery.of(context).size.width / 2,
-
-        // Height of the Countdown Widget
-        height: MediaQuery.of(context).size.height / 2,
-
-        // Default Color for Countdown Timer
-        color: Colors.white,
-
-        // Filling Color for Countdown Timer
-        fillColor: Colors.red,
-
-        // Background Color for Countdown Widget
-        backgroundColor: null,
-
-        // Border Thickness of the Countdown Circle
-        strokeWidth: 5.0,
-
-        // Begin and end contours with a flat edge and no extension
-        strokeCap: StrokeCap.butt,
-
-        // Text Style for Countdown Text
-        textStyle: TextStyle(
-            fontSize: 22.0, color: Colors.black, fontWeight: FontWeight.bold),
-
-        // Optional [String] to format Countdown Text
-        textFormat: CountdownTextFormat.HH_MM_SS,
-
-        // true for reverse countdown (max to 0), false for forward countdown (0 to max)
-        isReverse: false,
-
-        // true for reverse animation, false for forward animation
-        isReverseAnimation: false,
-
-        // Optional [bool] to hide the [Text] in this widget.
-        isTimerTextShown: true,
-
-        // Optional [bool] to handle timer start
-        autoStart: true,
-
-        // Function which will execute when the Countdown Starts
-        onStart: () {
-          // Here, do whatever you want
-          print('Countdown Started');
-        },
-
-        // Function which will execute when the Countdown Ends
-        onComplete: () {
-          // Here, do whatever you want
-          print('Countdown Ended');
-        },
-      )),
-      floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {
-            setState(() {
-              if (_isPause) {
-                _isPause = false;
-                _controller.resume();
-              } else {
-                _isPause = true;
-                _controller.pause();
-              }
-            });
-          },
-          icon: Icon(_isPause ? Icons.play_arrow : Icons.pause),
-          label: Text(_isPause ? "Resume" : "Pause")),
-    );
-  }
-}
+CircularCountDownTimer(
+     duration: 10,
+     controller: CountDownController(),
+     width: MediaQuery.of(context).size.width / 2,
+     height: MediaQuery.of(context).size.height / 2,
+     color: Colors.grey[300],
+     fillColor: Colors.purpleAccent[100],
+     backgroundColor: Colors.purple[500],
+     strokeWidth: 20.0,
+     strokeCap: StrokeCap.round,
+     textStyle: TextStyle(
+         fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
+     textFormat: CountdownTextFormat.SS,
+     isReverse: false,
+     isReverseAnimation: false,
+     isTimerTextShown: true,
+     autoStart: true,
+     onStart: () {
+         print('Countdown Started');
+     },
+     onComplete: () {
+         print('Countdown Ended');
+     },
+ );
 ```
 
-# Forward Countdown
+## Parameters
+|Name|Type|Default Value|Description
+|:-------------|:----------|:--------|:------------|
+|`key`|`Key`|null|*Key for Countdown Timer.*|
+|`duration`|`int`|null|*Countdown duration in Seconds.*|
+|`controller`|`CountDownController`|null|*Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.*|
+|`width`|`double`|null|*Width of the Countdown Widget.*|
+|`height`|`double`|null|*Height of the Countdown Widget.*|
+|`color`|`Color`|null|*Ring Color for Countdown Widget.*|
+|`fillColor`|`Color`|null|*Filling Color for Countdown Widget.*|
+|`backgroundColor`|`Color`|null|*Background Color for Countdown Widget.*|
+|`strokeWidth`|`double`|5.0|*Border Thickness of the Countdown Ring.*|
+|`strokeCap`|`StrokeCap`|StrokeCap.butt|*Begin and end contours with a flat edge and no extension.*|
+|`textStyle`|`TextStyle`|TextStyle(fontSize: 16.0,color: Colors.black,)|*Text Style for Countdown Text.*|
+|`textFormat`|`String`|null|*Format for the Countdown Text.*|
+|`isReverse`|`bool`|false|*Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).*|
+|`isReverseAnimation`|`bool`|false|*Handles Animation Direction (true for Reverse Animation, false for Forward Animation).*|
+|`isTimerTextShown`|`bool`|true|*Handles visibility of the Countdown Text.*|
+|`autoStart`|`bool`|true|*Handles the timer start.*|
+|`onStart`|`VoidCallback`|null|*This Callback will execute when the Countdown Starts.*|
+|`onComplete`|`VoidCallback`|null|*This Callback will execute when the Countdown Ends.*|
 
-![Forward](https://user-images.githubusercontent.com/30389103/84040768-79c32780-a9bc-11ea-87ff-4be9b9df945e.gif)
+## Demo
 
-
-# Reverse Countdown
-
-![Reverse](https://user-images.githubusercontent.com/30389103/84041105-e2aa9f80-a9bc-11ea-9227-eecce39ae8ea.gif)
+![demo](https://user-images.githubusercontent.com/30389103/105608573-7e124880-5dc5-11eb-8d72-9b98ac14dbd9.gif)

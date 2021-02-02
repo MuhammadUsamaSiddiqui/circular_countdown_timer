@@ -1,6 +1,7 @@
 library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
+
 import 'custom_timer_painter.dart';
 
 /// Create a Circular Countdown Timer.
@@ -100,6 +101,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
         return "00:00";
       } else if (widget.textFormat == CountdownTextFormat.SS) {
         return "00";
+      } else if (widget.textFormat == CountdownTextFormat.S) {
+        return "0";
       } else {
         return "00:00:00";
       }
@@ -142,7 +145,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
       return '${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
     }
     // For ss format
-    else if (widget.textFormat == CountdownTextFormat.SS) {
+    else if (widget.textFormat == CountdownTextFormat.SS ||
+        widget.textFormat == CountdownTextFormat.S) {
       return '${(duration.inSeconds)}';
     } else {
       // Default format
@@ -312,4 +316,5 @@ class CountdownTextFormat {
   static const String HH_MM_SS = "HH:mm:ss";
   static const String MM_SS = "mm:ss";
   static const String SS = "ss";
+  static const String S = "s";
 }

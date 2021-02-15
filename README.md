@@ -16,21 +16,25 @@ To use this plugin, add `circular_countdown_timer` as a [dependency in your pubs
 ```dart
 CircularCountDownTimer(
      duration: 10,
+     initialDuration: 0,
      controller: CountDownController(),
      width: MediaQuery.of(context).size.width / 2,
      height: MediaQuery.of(context).size.height / 2,
-     color: Colors.grey[300],
+     ringColor: Colors.grey[300],
+     ringGradient: null,
      fillColor: Colors.purpleAccent[100],
+     fillGradient: null,
      backgroundColor: Colors.purple[500],
+     backgroundGradient: null,
      strokeWidth: 20.0,
      strokeCap: StrokeCap.round,
      textStyle: TextStyle(
          fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
-     textFormat: CountdownTextFormat.SS,
+     textFormat: CountdownTextFormat.S,
      isReverse: false,
      isReverseAnimation: false,
      isTimerTextShown: true,
-     autoStart: true,
+     autoStart: false,
      onStart: () {
          print('Countdown Started');
      },
@@ -45,12 +49,16 @@ CircularCountDownTimer(
 |:-------------|:----------|:--------|:------------|
 |`key`|`Key`|null|*Key for Countdown Timer.*|
 |`duration`|`int`|null|*Countdown duration in Seconds.*|
+|`initialDuration`|`int`|0|*Countdown initial elapsed Duration in Seconds.*|
 |`controller`|`CountDownController`|null|*Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.*|
 |`width`|`double`|null|*Width of the Countdown Widget.*|
 |`height`|`double`|null|*Height of the Countdown Widget.*|
-|`color`|`Color`|null|*Ring Color for Countdown Widget.*|
+|`ringColor`|`Color`|null|*Ring Color for Countdown Widget.*|
+|`ringGradient`|`Gradient`|null|*Ring Gradient for Countdown Widget. Note that ringColor will not be effective if gradient is provided.*|
 |`fillColor`|`Color`|null|*Filling Color for Countdown Widget.*|
+|`fillGradient`|`Gradient`|null|*Filling Gradient for Countdown Widget. Note that fillColor will not be effective if gradient is provided.*|
 |`backgroundColor`|`Color`|null|*Background Color for Countdown Widget.*|
+|`backgroundGradient`|`Gradient`|null|*Background Gradient for Countdown Widget. Note that backgroundColor will not be effective if gradient is provided.*|
 |`strokeWidth`|`double`|5.0|*Border Thickness of the Countdown Ring.*|
 |`strokeCap`|`StrokeCap`|StrokeCap.butt|*Begin and end contours with a flat edge and no extension.*|
 |`textStyle`|`TextStyle`|TextStyle(fontSize: 16.0,color: Colors.black,)|*Text Style for Countdown Text.*|
@@ -64,4 +72,4 @@ CircularCountDownTimer(
 
 ## Demo
 
-![demo](https://user-images.githubusercontent.com/30389103/105608573-7e124880-5dc5-11eb-8d72-9b98ac14dbd9.gif)
+![demo](https://user-images.githubusercontent.com/30389103/107875872-235f9e80-6ee4-11eb-9fd5-4e57d8f1cb00.gif)

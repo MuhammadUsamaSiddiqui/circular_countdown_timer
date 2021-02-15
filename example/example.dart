@@ -41,6 +41,9 @@ class _MyHomePageState extends State<MyHomePage> {
         // Countdown duration in Seconds.
         duration: _duration,
 
+        // Countdown initial elapsed Duration in Seconds.
+        initialDuration: 0,
+
         // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
         controller: _controller,
 
@@ -51,13 +54,22 @@ class _MyHomePageState extends State<MyHomePage> {
         height: MediaQuery.of(context).size.height / 2,
 
         // Ring Color for Countdown Widget.
-        color: Colors.grey[300],
+        ringColor: Colors.grey[300],
+
+        // Ring Gradient for Countdown Widget.
+        ringGradient: null,
 
         // Filling Color for Countdown Widget.
         fillColor: Colors.purpleAccent[100],
 
+        // Filling Gradient for Countdown Widget.
+        fillGradient: null,
+
         // Background Color for Countdown Widget.
         backgroundColor: Colors.purple[500],
+
+        // Background Gradient for Countdown Widget.
+        backgroundGradient: null,
 
         // Border Thickness of the Countdown Ring.
         strokeWidth: 20.0,
@@ -70,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
             fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
 
         // Format for the Countdown Text.
-        textFormat: CountdownTextFormat.SS,
+        textFormat: CountdownTextFormat.S,
 
         // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
         isReverse: false,

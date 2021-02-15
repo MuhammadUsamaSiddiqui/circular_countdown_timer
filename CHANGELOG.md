@@ -1,3 +1,14 @@
+## [0.1.0] - Feb 15 2021.
+
+* Added Optional Parameter:
+    * int named **initialDuration** to provide initial elapsed Duration in Seconds.
+    * Gradient named **ringGradient** to provide ring gradient for Countdown Widget.
+    * Gradient named **fillGradient** to provide filling gradient for Countdown Widget.
+    * Gradient named **backgroundGradient** to provide background gradient for Countdown Widget.
+
+* Changed Parameter name from **color** to **ringColor**.
+* Added **CountdownTextFormat.S** in CountdownTextFormat.
+
 ## [0.0.9] - Jan 24 2021.
 
 * Added Optional Parameter:

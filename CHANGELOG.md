@@ -1,3 +1,7 @@
+## [0.2.0] - Mar 23 2021.
+
+* Added Null Safety Support.
+
 ## [0.1.0] - Feb 15 2021.
 
 * Added Optional Parameter:

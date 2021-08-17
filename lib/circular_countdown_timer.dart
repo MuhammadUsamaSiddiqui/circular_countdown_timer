@@ -2,7 +2,7 @@ library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
 import 'custom_timer_painter.dart';
-typedef TimeCallback = Function(double time);
+typedef TimeCallback = Function(Duration elapsedTime);
 
 /// Create a Circular Countdown Timer.
 class CircularCountDownTimer extends StatefulWidget {
@@ -241,7 +241,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     });
 
     _controller!.addListener(() {
-      widget.onChange!(_countDownAnimation!.value);
+      Duration duration = _controller!.duration! * _controller!.value;
+      widget.onChange!(duration);
     });
 
     _setAnimation();

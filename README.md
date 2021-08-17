@@ -41,8 +41,8 @@ CircularCountDownTimer(
      onComplete: () {
          print('Countdown Ended');
      },
-     onChange: (value) {
-         print('Countdown change $value');
+     onChange: (Duration elapsedTime) {
+         print('Countdown change $elapsedTime');
      },
  );
 ```

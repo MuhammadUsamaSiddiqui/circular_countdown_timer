@@ -115,6 +115,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     with TickerProviderStateMixin {
   AnimationController? _controller;
   Animation<double>? _countDownAnimation;
+  Duration? elapsedTime;
 
   String get time {
     if (widget.isReverse && _controller!.isDismissed) {
@@ -241,8 +242,14 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     });
 
     _controller!.addListener(() {
+      if(elapsedTime == null){
+        elapsedTime = _controller!.duration! * _controller!.value;
+      }
       Duration duration = _controller!.duration! * _controller!.value;
-      widget.onChange!(duration);
+      if(duration.inSeconds != elapsedTime!.inSeconds ){
+        widget.onChange!(duration);
+      }
+      elapsedTime = duration;
     });
 
     _setAnimation();

@@ -1,3 +1,8 @@
+## [0.2.1] - Ago 16 2021.
+
+* Added Optional Parameter:
+    * TimeCallback named **onChange** which will execute when the Countdown is changed.
+
 ## [0.2.0] - Mar 23 2021.
 
 * Added Null Safety Support.

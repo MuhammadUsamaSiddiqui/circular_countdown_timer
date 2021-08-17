@@ -115,6 +115,9 @@ class _MyHomePageState extends State<MyHomePage> {
               // Here, do whatever you want
               print('Countdown Ended');
             },
+            onChange: (value) {
+              print('Countdown change $value');
+            },
           )),
       floatingActionButton: Row(
         mainAxisAlignment: MainAxisAlignment.center,

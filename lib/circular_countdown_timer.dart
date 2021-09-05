@@ -115,9 +115,9 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     if (widget.isReverse && _controller!.isDismissed) {
       if (widget.textFormat == CountdownTextFormat.MM_SS) {
         return "00:00";
-      } else if (widget.textFormat == CountdownTextFormat.SS) {
+      } else if (widget.textFormat == CountdownTextFormat.SS || CountdownTextFormat.MM) {
         return "00";
-      } else if (widget.textFormat == CountdownTextFormat.S) {
+      } else if (widget.textFormat == CountdownTextFormat.S || CountdownTextFormat.M) {
         return "0";
       } else {
         return "00:00:00";
@@ -171,6 +171,14 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     // For mm:ss format
     else if (widget.textFormat == CountdownTextFormat.MM_SS) {
       return '${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    }
+    // For mm format
+    else if (widget.textFormat == CountdownTextFormat.M) {
+      return '${(duration.inMinutes).toString().padLeft(2, '0')}';
+    }
+    // For m format
+    else if (widget.textFormat == CountdownTextFormat.MM) {
+      return '${duration.inMinutes}';
     }
     // For ss format
     else if (widget.textFormat == CountdownTextFormat.SS) {

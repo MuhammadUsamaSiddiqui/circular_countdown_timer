@@ -174,11 +174,11 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     }
     // For mm format
     else if (widget.textFormat == CountdownTextFormat.MM) {
-      return '${(duration.inMinutes).toString().padLeft(2, '0')}';
+      return '${(duration.inMinutes + 1).toString().padLeft(2, '0')}';  // fix for: 59 secs shovvs up as 0 mins
     }
     // For m format
     else if (widget.textFormat == CountdownTextFormat.M) {
-      return '${duration.inMinutes}';
+      return '${duration.inMinutes + 1}'; // fix for: 59 secs shovvs up as 0 mins
     }
     // For ss format
     else if (widget.textFormat == CountdownTextFormat.SS) {

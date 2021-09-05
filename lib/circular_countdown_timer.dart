@@ -115,9 +115,9 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     if (widget.isReverse && _controller!.isDismissed) {
       if (widget.textFormat == CountdownTextFormat.MM_SS) {
         return "00:00";
-      } else if (widget.textFormat == CountdownTextFormat.SS || CountdownTextFormat.MM) {
+      } else if (widget.textFormat == CountdownTextFormat.SS || widget.textFormat == CountdownTextFormat.MM) {
         return "00";
-      } else if (widget.textFormat == CountdownTextFormat.S || CountdownTextFormat.M) {
+      } else if (widget.textFormat == CountdownTextFormat.S || widget.textFormat == CountdownTextFormat.M) {
         return "0";
       } else {
         return "00:00:00";

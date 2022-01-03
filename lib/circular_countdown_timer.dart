@@ -194,6 +194,14 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
       return '${duration.inSeconds % 60}';
     }
   }
+  void add(Duration duration, {bool start = false, Duration changeAnimationDuration = const Duration(seconds: 0)}) {
+    duration = (duration > this.duration!) ? this.duration! : duration;
+    double newValue = this.value - (duration.inMilliseconds / this.duration!.inMilliseconds);
+    this.animateBack(newValue, duration: changeAnimationDuration);
+    if (start) {
+      this.forward();
+    }
+  }
 
   void _onStart() {
     if (widget.onStart != null) widget.onStart!();

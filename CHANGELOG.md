@@ -1,3 +1,6 @@
+## [0.2.1] - Mar 13 2022.
+* Updated package to latest Flutter version.
+
 ## [0.2.0] - Mar 23 2021.
 
 * Added Null Safety Support.

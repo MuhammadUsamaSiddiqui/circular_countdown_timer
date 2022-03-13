@@ -20,9 +20,9 @@ CircularCountDownTimer(
      controller: CountDownController(),
      width: MediaQuery.of(context).size.width / 2,
      height: MediaQuery.of(context).size.height / 2,
-     ringColor: Colors.grey[300],
+     ringColor: Colors.grey[300]!,
      ringGradient: null,
-     fillColor: Colors.purpleAccent[100],
+     fillColor: Colors.purpleAccent[100]!,
      fillGradient: null,
      backgroundColor: Colors.purple[500],
      backgroundGradient: null,
@@ -36,10 +36,10 @@ CircularCountDownTimer(
      isTimerTextShown: true,
      autoStart: false,
      onStart: () {
-         print('Countdown Started');
+         debugPrint('Countdown Started');
      },
      onComplete: () {
-         print('Countdown Ended');
+         debugPrint('Countdown Ended');
      },
  );
 ```
@@ -73,3 +73,7 @@ CircularCountDownTimer(
 ## Demo
 
 ![demo](https://user-images.githubusercontent.com/30389103/107875872-235f9e80-6ee4-11eb-9fd5-4e57d8f1cb00.gif)
+
+## Youtube
+
+[Bekar Programmer](https://www.youtube.com/channel/UCxjtmtkMX_uJBfqwZpa-m9A)

@@ -1,11 +1,12 @@
 name: circular_countdown_timer
 description: Make an animated circular countdown using Circular Countdown Timer.
-version: 0.2.0
+version: 0.2.1
 homepage: https://github.com/MuhammadUsamaSiddiqui/circular_countdown_timer
 
 environment:
-  sdk: '>=2.12.0 <3.0.0'
-
+  sdk: ">=2.16.1 <3.0.0"
+  flutter: ">=1.17.0"
+  
 dependencies:
   flutter:
     sdk: flutter

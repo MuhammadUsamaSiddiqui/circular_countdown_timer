@@ -71,12 +71,35 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
+  ///Function to format the text.
+  ///Allows you to format the current duration to any String.
+  ///It also provides the default function in case you want to format specific
+  ///moments, as in reverse when reaching '0' show 'GO', and for the rest of the
+  ///instances follow the default behavior.
+  ///How to use it:
+  ///```dart
+  /// CircularCountDownTimer(//reverse timer, show 'GO' when reach '0'
+  ///   isReverse: true,//reverse flag
+  ///   isReverseAnimation: true,//reverse animation flag
+  ///   timeFormatterFunction: (defaultFormatterFunction, duration) {
+  ///     if (duration.inSeconds == 0) {//only format for '0'
+  ///       return "GO";
+  ///     } else {//others durations by it's default format
+  ///       return Function.apply(defaultFormatterFunction, [duration]);
+  ///     }
+  ///   },
+  /// )
+  /// ```
+  final Function(Function(Duration duration) defaultFormatterFunction,
+      Duration duration)? timeFormatterFunction;
+
   CircularCountDownTimer(
       {required this.width,
       required this.height,
       required this.duration,
       required this.fillColor,
       required this.ringColor,
+      this.timeFormatterFunction,
       this.backgroundColor,
       this.fillGradient,
       this.ringGradient,
@@ -119,7 +142,12 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
       }
     } else {
       Duration duration = _controller!.duration! * _controller!.value;
-      return _getTime(duration);
+      if (widget.timeFormatterFunction != null) {
+        return Function.apply(
+            widget.timeFormatterFunction!, [_getTime, duration]).toString();
+      } else {
+        return _getTime(duration);
+      }
     }
   }
 

@@ -110,9 +110,9 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     if (widget.isReverse && _controller!.isDismissed) {
       if (widget.textFormat == CountdownTextFormat.MM_SS) {
         return "00:00";
-      } else if (widget.textFormat == CountdownTextFormat.SS) {
+      } else if (widget.textFormat == CountdownTextFormat.SS || widget.textFormat == CountdownTextFormat.MM) {
         return "00";
-      } else if (widget.textFormat == CountdownTextFormat.S) {
+      } else if (widget.textFormat == CountdownTextFormat.S || widget.textFormat == CountdownTextFormat.M) {
         return "0";
       } else {
         return "00:00:00";
@@ -166,6 +166,14 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     // For mm:ss format
     else if (widget.textFormat == CountdownTextFormat.MM_SS) {
       return '${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    }
+    // For mm format
+    else if (widget.textFormat == CountdownTextFormat.MM) {
+      return '${(duration.inMinutes + 1).toString().padLeft(2, '0')}';  // fix for: 59 secs shovvs up as 0 mins
+    }
+    // For m format
+    else if (widget.textFormat == CountdownTextFormat.M) {
+      return '${duration.inMinutes + 1}'; // fix for: 59 secs shovvs up as 0 mins
     }
     // For ss format
     else if (widget.textFormat == CountdownTextFormat.SS) {
@@ -348,6 +356,8 @@ class CountDownController {
 class CountdownTextFormat {
   static const String HH_MM_SS = "HH:mm:ss";
   static const String MM_SS = "mm:ss";
+  static const String MM = "mm";
+  static const String M = "m";
   static const String SS = "ss";
   static const String S = "s";
 }

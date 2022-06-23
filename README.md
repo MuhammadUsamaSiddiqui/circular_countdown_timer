@@ -9,7 +9,7 @@ To use this plugin, add `circular_countdown_timer` as a [dependency in your pubs
 ## Features
 * Forward Countdown Timer.
 * Reverse Countdown Timer.
-* Start, Pause, Resume and Restart Timer.
+* Start, Pause, Resume, Restart and Reset Timer.
 
 ## Usage
 
@@ -36,10 +36,13 @@ CircularCountDownTimer(
      isTimerTextShown: true,
      autoStart: false,
      onStart: () {
-         debugPrint('Countdown Started');
+        debugPrint('Countdown Started');
      },
      onComplete: () {
-         debugPrint('Countdown Ended');
+        debugPrint('Countdown Ended');
+     },
+     onChange: (String timeStamp) {
+        debugPrint('Countdown Changed $timeStamp');
      },
  );
 ```
@@ -69,6 +72,7 @@ CircularCountDownTimer(
 |`autoStart`|`bool`|true|*Handles the timer start.*|
 |`onStart`|`VoidCallback`|null|*This Callback will execute when the Countdown Starts.*|
 |`onComplete`|`VoidCallback`|null|*This Callback will execute when the Countdown Ends.*|
+|`onChange`|`ValueChanged<String>`|null|*This Callback will execute when the Countdown Changes.*|
 
 ## Demo
 
@@ -77,3 +81,6 @@ CircularCountDownTimer(
 ## Youtube
 
 [Bekar Programmer](https://www.youtube.com/channel/UCxjtmtkMX_uJBfqwZpa-m9A)
+
+
+<a href="https://www.buymeacoffee.com/usamasiddiqui" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>

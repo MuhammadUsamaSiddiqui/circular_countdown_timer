@@ -334,6 +334,7 @@ class CountDownController {
   void pause() {
     _state._controller?.stop(canceled: false);
     isPaused = true;
+    isResumed = false;
   }
 
   /// This Method Resumes the Countdown Timer
@@ -344,6 +345,7 @@ class CountDownController {
       _state._controller?.forward(from: _state._controller!.value);
     }
     isResumed = true;
+    isPaused = false;
   }
 
   /// This Method Restarts the Countdown Timer,

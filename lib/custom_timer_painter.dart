@@ -34,9 +34,9 @@ class CustomTimerPainter extends CustomPainter {
     if (ringGradient != null) {
       final rect = Rect.fromCircle(
           center: size.center(Offset.zero), radius: size.width / 2);
-      paint..shader = ringGradient!.createShader(rect);
+      paint.shader = ringGradient!.createShader(rect);
     } else {
-      paint..shader = null;
+      paint.shader = null;
     }
 
     canvas.drawCircle(size.center(Offset.zero), size.width / 2, paint);
@@ -52,9 +52,9 @@ class CustomTimerPainter extends CustomPainter {
     if (fillGradient != null) {
       final rect = Rect.fromCircle(
           center: size.center(Offset.zero), radius: size.width / 2);
-      paint..shader = fillGradient!.createShader(rect);
+      paint.shader = fillGradient!.createShader(rect);
     } else {
-      paint..shader = null;
+      paint.shader = null;
       paint.color = fillColor!;
     }
 
@@ -66,7 +66,7 @@ class CustomTimerPainter extends CustomPainter {
       if (backgroundGradient != null) {
         final rect = Rect.fromCircle(
             center: size.center(Offset.zero), radius: size.width / 2.2);
-        backgroundPaint..shader = backgroundGradient!.createShader(rect);
+        backgroundPaint.shader = backgroundGradient!.createShader(rect);
       } else {
         backgroundPaint.color = backgroundColor!;
       }
@@ -76,9 +76,9 @@ class CustomTimerPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(CustomTimerPainter old) {
-    return animation!.value != old.animation!.value ||
-        ringColor != old.ringColor ||
-        fillColor != old.fillColor;
+  bool shouldRepaint(CustomTimerPainter oldDelegate) {
+    return animation!.value != oldDelegate.animation!.value ||
+        ringColor != oldDelegate.ringColor ||
+        fillColor != oldDelegate.fillColor;
   }
 }

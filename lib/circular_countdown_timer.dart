@@ -1,3 +1,5 @@
+// ignore_for_file: constant_identifier_names
+
 library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
@@ -5,9 +7,6 @@ import 'custom_timer_painter.dart';
 
 /// Create a Circular Countdown Timer.
 class CircularCountDownTimer extends StatefulWidget {
-  /// Key for Countdown Timer.
-  final Key? key;
-
   /// Filling Color for Countdown Widget.
   final Color fillColor;
 
@@ -74,7 +73,7 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
-  CircularCountDownTimer({
+  const CircularCountDownTimer({
     required this.width,
     required this.height,
     required this.duration,
@@ -93,18 +92,15 @@ class CircularCountDownTimer extends StatefulWidget {
     this.strokeWidth = 5.0,
     this.strokeCap = StrokeCap.butt,
     this.textStyle,
-    this.key,
+    super.key,
     this.isTimerTextShown = true,
     this.autoStart = true,
     this.textFormat,
     this.controller,
-  })  : assert(initialDuration <= duration),
-        super(key: key);
+  }) : assert(initialDuration <= duration);
 
   @override
-  CircularCountDownTimerState createState() => CircularCountDownTimerState(
-        countDownController: controller ?? CountDownController(),
-      );
+  CircularCountDownTimerState createState() => CircularCountDownTimerState();
 }
 
 class CircularCountDownTimerState extends State<CircularCountDownTimer>
@@ -112,8 +108,6 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   AnimationController? _controller;
   Animation<double>? _countDownAnimation;
   CountDownController? countDownController;
-
-  CircularCountDownTimerState({this.countDownController});
 
   String get time {
     String timeStamp = "";
@@ -185,7 +179,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     }
     // For ss format
     else if (widget.textFormat == CountdownTextFormat.SS) {
-      return '${(duration.inSeconds).toString().padLeft(2, '0')}';
+      return (duration.inSeconds).toString().padLeft(2, '0');
     }
     // For s format
     else if (widget.textFormat == CountdownTextFormat.S) {
@@ -216,6 +210,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   @override
   void initState() {
+    countDownController = widget.controller ?? CountDownController();
     super.initState();
     _controller = AnimationController(
       vsync: this,
@@ -253,7 +248,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: widget.width,
       height: widget.height,
       child: AnimatedBuilder(
@@ -286,7 +281,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             child: Text(
                               time,
                               style: widget.textStyle ??
-                                  TextStyle(
+                                  const TextStyle(
                                     fontSize: 16.0,
                                     color: Colors.black,
                                   ),
@@ -311,71 +306,84 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
 /// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
 class CountDownController {
-  late CircularCountDownTimerState _state;
-  late bool _isReverse;
+  CircularCountDownTimerState? _state;
+  bool? _isReverse;
   bool isStarted = false, isPaused = false, isResumed = false;
   int? _initialDuration, _duration;
 
   /// This Method Starts the Countdown Timer
   void start() {
-    if (_isReverse) {
-      _state._controller?.reverse(
-          from:
-              _initialDuration == 0 ? 1 : 1 - (_initialDuration! / _duration!));
-    } else {
-      _state._controller?.forward(
-          from: _initialDuration == 0 ? 0 : (_initialDuration! / _duration!));
+    if (_isReverse != null && _state != null && _state?._controller != null) {
+      if (_isReverse!) {
+        _state?._controller?.reverse(
+            from: _initialDuration == 0
+                ? 1
+                : 1 - (_initialDuration! / _duration!));
+      } else {
+        _state?._controller?.forward(
+            from: _initialDuration == 0 ? 0 : (_initialDuration! / _duration!));
+      }
+      isStarted = true;
     }
-
-    isStarted = true;
   }
 
   /// This Method Pauses the Countdown Timer
   void pause() {
-    _state._controller?.stop(canceled: false);
-    isPaused = true;
+    if (_state != null && _state?._controller != null) {
+      _state?._controller?.stop(canceled: false);
+      isPaused = true;
+    }
   }
 
   /// This Method Resumes the Countdown Timer
   void resume() {
-    if (_isReverse) {
-      _state._controller?.reverse(from: _state._controller!.value);
-    } else {
-      _state._controller?.forward(from: _state._controller!.value);
+    if (_isReverse != null && _state != null && _state?._controller != null) {
+      if (_isReverse!) {
+        _state?._controller?.reverse(from: _state!._controller!.value);
+      } else {
+        _state?._controller?.forward(from: _state!._controller!.value);
+      }
+      isResumed = true;
     }
-    isResumed = true;
   }
 
   /// This Method Restarts the Countdown Timer,
   /// Here optional int parameter **duration** is the updated duration for countdown timer
 
   void restart({int? duration}) {
-    _state._controller!.duration =
-        Duration(seconds: duration ?? _state._controller!.duration!.inSeconds);
-    if (_isReverse) {
-      _state._controller?.reverse(from: 1);
-    } else {
-      _state._controller?.forward(from: 0);
+    if (_isReverse != null && _state != null && _state?._controller != null) {
+      _state?._controller!.duration = Duration(
+          seconds: duration ?? _state!._controller!.duration!.inSeconds);
+      if (_isReverse!) {
+        _state?._controller?.reverse(from: 1);
+      } else {
+        _state?._controller?.forward(from: 0);
+      }
+      isStarted = true;
+      isPaused = false;
+      isResumed = false;
     }
-    isStarted = true;
-    isPaused = false;
-    isResumed = false;
   }
 
   /// This Method resets the Countdown Timer
   void reset() {
-    _state._controller?.reset();
-    isStarted = _state.widget.autoStart;
-    isPaused = false;
-    isResumed = false;
+    if (_state != null && _state?._controller != null) {
+      _state?._controller?.reset();
+      isStarted = _state?.widget.autoStart ?? false;
+      isPaused = false;
+      isResumed = false;
+    }
   }
 
   /// This Method returns the **Current Time** of Countdown Timer i.e
   /// Time Used in terms of **Forward Countdown** and Time Left in terms of **Reverse Countdown**
 
-  String getTime() {
-    return _state
-        ._getTime(_state._controller!.duration! * _state._controller!.value);
+  String? getTime() {
+    if (_state != null && _state?._controller != null) {
+      return _state?._getTime(
+          _state!._controller!.duration! * _state!._controller!.value);
+    }
+    return "";
   }
 }
 

@@ -268,6 +268,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                         child: Image.asset(
                           widget.backgroundImage!,
                           fit: BoxFit.fill,
+                          height: widget.height,
+                          width: widget.width,
                         ),
                       ),
                     Positioned.fill(

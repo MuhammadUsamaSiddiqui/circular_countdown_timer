@@ -14,6 +14,7 @@ class CustomTimerPainter extends CustomPainter {
     this.isReverse,
     this.isReverseAnimation,
     this.backgroundGradient,
+    this.backgroundImage,
   }) : super(repaint: animation);
 
   final Animation<double>? animation;
@@ -22,6 +23,7 @@ class CustomTimerPainter extends CustomPainter {
   final StrokeCap? strokeCap;
   final bool? isReverse, isReverseAnimation;
   final Gradient? fillGradient, ringGradient, backgroundGradient;
+  final String? backgroundImage;
 
   @override
   void paint(Canvas canvas, Size size) {

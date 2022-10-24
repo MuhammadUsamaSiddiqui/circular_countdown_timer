@@ -73,12 +73,16 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
+  /// background image for Countdown Widget.
+  final String? backgroundImage;
+
   const CircularCountDownTimer({
     required this.width,
     required this.height,
     required this.duration,
     required this.fillColor,
     required this.ringColor,
+    this.backgroundImage,
     this.backgroundColor,
     this.fillGradient,
     this.ringGradient,
@@ -259,6 +263,13 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                 aspectRatio: 1.0,
                 child: Stack(
                   children: <Widget>[
+                    if (widget.backgroundImage != null)
+                      Positioned.fill(
+                        child: Image.asset(
+                          widget.backgroundImage!,
+                          fit: BoxFit.fill,
+                        ),
+                      ),
                     Positioned.fill(
                       child: CustomPaint(
                         painter: CustomTimerPainter(
@@ -272,6 +283,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             isReverse: widget.isReverse,
                             isReverseAnimation: widget.isReverseAnimation,
                             backgroundColor: widget.backgroundColor,
+                            backgroundImage: widget.backgroundImage,
                             backgroundGradient: widget.backgroundGradient),
                       ),
                     ),

@@ -1,9 +1,10 @@
-// ignore_for_file: constant_identifier_names
-
 library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
+import 'countdown_text_format.dart';
 import 'custom_timer_painter.dart';
+
+export 'countdown_text_format.dart';
 
 /// Create a Circular Countdown Timer.
 class CircularCountDownTimer extends StatefulWidget {
@@ -418,11 +419,4 @@ class CountDownController {
     }
     return "";
   }
-}
-
-class CountdownTextFormat {
-  static const String HH_MM_SS = "HH:mm:ss";
-  static const String MM_SS = "mm:ss";
-  static const String SS = "ss";
-  static const String S = "s";
 }

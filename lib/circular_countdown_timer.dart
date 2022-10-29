@@ -73,12 +73,23 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
+  /* 
+   * Function to format the text.
+   * Allows you to format the current duration to any String.
+   * It also provides the default function in case you want to format specific moments
+     as in reverse when reaching '0' show 'GO', and for the rest of the instances follow 
+     the default behavior.
+  */
+  final Function(Function(Duration duration) defaultFormatterFunction,
+      Duration duration)? timeFormatterFunction;
+
   const CircularCountDownTimer({
     required this.width,
     required this.height,
     required this.duration,
     required this.fillColor,
     required this.ringColor,
+    this.timeFormatterFunction,
     this.backgroundColor,
     this.fillGradient,
     this.ringGradient,
@@ -114,10 +125,20 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     if (widget.isReverse &&
         !widget.autoStart &&
         !countDownController!.isStarted) {
-      timeStamp = _getTime(Duration(seconds: widget.duration));
+      if (widget.timeFormatterFunction != null) {
+        return Function.apply(widget.timeFormatterFunction!,
+            [_getTime, Duration(seconds: widget.duration)]).toString();
+      } else {
+        timeStamp = _getTime(Duration(seconds: widget.duration));
+      }
     } else {
       Duration? duration = _controller!.duration! * _controller!.value;
-      timeStamp = _getTime(duration);
+      if (widget.timeFormatterFunction != null) {
+        return Function.apply(
+            widget.timeFormatterFunction!, [_getTime, duration]).toString();
+      } else {
+        timeStamp = _getTime(duration);
+      }
     }
     if (widget.onChange != null) widget.onChange!(timeStamp);
 
@@ -308,7 +329,10 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 class CountDownController {
   CircularCountDownTimerState? _state;
   bool? _isReverse;
-  bool isStarted = false, isPaused = false, isResumed = false;
+  bool isStarted = false,
+      isPaused = false,
+      isResumed = false,
+      isRestarted = false;
   int? _initialDuration, _duration;
 
   /// This Method Starts the Countdown Timer
@@ -324,6 +348,9 @@ class CountDownController {
             from: _initialDuration == 0 ? 0 : (_initialDuration! / _duration!));
       }
       isStarted = true;
+      isPaused = false;
+      isResumed = false;
+      isRestarted = false;
     }
   }
 
@@ -332,6 +359,7 @@ class CountDownController {
     if (_state != null && _state?._controller != null) {
       _state?._controller?.stop(canceled: false);
       isPaused = true;
+      isRestarted = false;
       isResumed = false;
     }
   }
@@ -345,6 +373,7 @@ class CountDownController {
         _state?._controller?.forward(from: _state!._controller!.value);
       }
       isResumed = true;
+      isRestarted = false;
       isPaused = false;
     }
   }
@@ -362,6 +391,7 @@ class CountDownController {
         _state?._controller?.forward(from: 0);
       }
       isStarted = true;
+      isRestarted = true;
       isPaused = false;
       isResumed = false;
     }
@@ -372,6 +402,7 @@ class CountDownController {
     if (_state != null && _state?._controller != null) {
       _state?._controller?.reset();
       isStarted = _state?.widget.autoStart ?? false;
+      isRestarted = false;
       isPaused = false;
       isResumed = false;
     }

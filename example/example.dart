@@ -118,6 +118,23 @@ class _MyHomePageState extends State<MyHomePage> {
             // Here, do whatever you want
             debugPrint('Countdown Changed $timeStamp');
           },
+
+          /* 
+            * Function to format the text.
+            * Allows you to format the current duration to any String.
+            * It also provides the default function in case you want to format specific moments
+              as in reverse when reaching '0' show 'GO', and for the rest of the instances follow 
+              the default behavior.
+          */
+          timeFormatterFunction: (defaultFormatterFunction, duration) {
+            if (duration.inSeconds == 0) {
+              // only format for '0'
+              return "Start";
+            } else {
+              // other durations by it's default format
+              return Function.apply(defaultFormatterFunction, [duration]);
+            }
+          },
         ),
       ),
       floatingActionButton: Row(

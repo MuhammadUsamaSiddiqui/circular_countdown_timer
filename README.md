@@ -44,6 +44,13 @@ CircularCountDownTimer(
      onChange: (String timeStamp) {
         debugPrint('Countdown Changed $timeStamp');
      },
+     timeFormatterFunction: (defaultFormatterFunction, duration) {
+        if (duration.inSeconds == 0) {
+           return "Start";
+        } else {
+           return Function.apply(defaultFormatterFunction, [duration]);
+        }
+     },
  );
 ```
 
@@ -73,6 +80,7 @@ CircularCountDownTimer(
 |`onStart`|`VoidCallback`|null|*This Callback will execute when the Countdown Starts.*|
 |`onComplete`|`VoidCallback`|null|*This Callback will execute when the Countdown Ends.*|
 |`onChange`|`ValueChanged<String>`|null|*This Callback will execute when the Countdown Changes.*|
+|`timeFormatterFunction`|`Function(Function(Duration duration) defaultFormatterFunction,Duration duration)`|null|*This Callback allows you to format the current duration to any String in Countdown Widget.*|
 
 ## Demo
 

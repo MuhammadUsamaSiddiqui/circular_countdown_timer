@@ -1,3 +1,10 @@
+## [0.2.3] - Oct 29 2022.
+* Fixes:
+    * Fixed values of isPaused and isResumed parameters of CountDownController.
+
+* Features:
+    * Added parameter (isRestarted) in CountDownController to get the restart status of Countdown Timer.
+    * Added Optional parameter Function(Function(Duration duration) defaultFormatterFunction, Duration duration) named **timeFormatterFunction** that allows you to format the current duration to any String in Countdown Widget.
 ## [0.2.2] - Jun 23 2022.
 * Fixes:
     * Showed duration value when autoStart is false.

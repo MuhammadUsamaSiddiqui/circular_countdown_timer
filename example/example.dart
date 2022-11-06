@@ -86,6 +86,9 @@ class _MyHomePageState extends State<MyHomePage> {
             fontWeight: FontWeight.bold,
           ),
 
+          // Text Align for Countdown Text.
+          textAlign: TextAlign.justify,
+
           // Format for the Countdown Text.
           textFormat: CountdownTextFormat.S,
 

@@ -30,6 +30,7 @@ CircularCountDownTimer(
      strokeCap: StrokeCap.round,
      textStyle: TextStyle(
          fontSize: 33.0, color: Colors.white, fontWeight: FontWeight.bold),
+     textAlign: TextAlign.center,
      textFormat: CountdownTextFormat.S,
      isReverse: false,
      isReverseAnimation: false,

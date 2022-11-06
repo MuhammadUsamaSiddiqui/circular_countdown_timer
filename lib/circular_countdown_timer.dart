@@ -56,6 +56,9 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Text Style for Countdown Text.
   final TextStyle? textStyle;
 
+  /// Text Align for Countdown Text.
+  final TextAlign textAlign;
+
   /// Format for the Countdown Text.
   final String? textFormat;
 
@@ -104,6 +107,7 @@ class CircularCountDownTimer extends StatefulWidget {
     this.strokeWidth = 5.0,
     this.strokeCap = StrokeCap.butt,
     this.textStyle,
+    this.textAlign = TextAlign.left,
     super.key,
     this.isTimerTextShown = true,
     this.autoStart = true,
@@ -307,6 +311,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                                     fontSize: 16.0,
                                     color: Colors.black,
                                   ),
+                              textAlign: widget.textAlign,
                             ),
                           )
                         : Container(),

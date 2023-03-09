@@ -69,6 +69,7 @@ class CircularCountDownTimer extends StatefulWidget {
   final bool isReverseAnimation;
 
   /// Handles visibility of the Countdown Text.
+  @Deprecated("use customWidget instead")
   final bool isTimerTextShown;
 
   /// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
@@ -76,6 +77,9 @@ class CircularCountDownTimer extends StatefulWidget {
 
   /// Handles the timer start.
   final bool autoStart;
+
+  /// custom widget
+  final Widget? customWidget;
 
   /* 
    * Function to format the text.
@@ -87,33 +91,34 @@ class CircularCountDownTimer extends StatefulWidget {
   final Function(Function(Duration duration) defaultFormatterFunction,
       Duration duration)? timeFormatterFunction;
 
-  const CircularCountDownTimer({
-    required this.width,
-    required this.height,
-    required this.duration,
-    required this.fillColor,
-    required this.ringColor,
-    this.timeFormatterFunction,
-    this.backgroundColor,
-    this.fillGradient,
-    this.ringGradient,
-    this.backgroundGradient,
-    this.initialDuration = 0,
-    this.isReverse = false,
-    this.isReverseAnimation = false,
-    this.onComplete,
-    this.onStart,
-    this.onChange,
-    this.strokeWidth = 5.0,
-    this.strokeCap = StrokeCap.butt,
-    this.textStyle,
-    this.textAlign = TextAlign.left,
-    super.key,
-    this.isTimerTextShown = true,
-    this.autoStart = true,
-    this.textFormat,
-    this.controller,
-  }) : assert(initialDuration <= duration);
+  const CircularCountDownTimer(
+      {required this.width,
+      required this.height,
+      required this.duration,
+      required this.fillColor,
+      required this.ringColor,
+      this.timeFormatterFunction,
+      this.backgroundColor,
+      this.fillGradient,
+      this.ringGradient,
+      this.backgroundGradient,
+      this.initialDuration = 0,
+      this.isReverse = false,
+      this.isReverseAnimation = false,
+      this.onComplete,
+      this.onStart,
+      this.onChange,
+      this.strokeWidth = 5.0,
+      this.strokeCap = StrokeCap.butt,
+      this.textStyle,
+      this.textAlign = TextAlign.left,
+      super.key,
+      this.isTimerTextShown = true,
+      this.autoStart = true,
+      this.textFormat,
+      this.controller,
+      this.customWidget})
+      : assert(initialDuration <= duration);
 
   @override
   CircularCountDownTimerState createState() => CircularCountDownTimerState();
@@ -301,20 +306,19 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             backgroundGradient: widget.backgroundGradient),
                       ),
                     ),
-                    widget.isTimerTextShown
-                        ? Align(
-                            alignment: FractionalOffset.center,
-                            child: Text(
-                              time,
-                              style: widget.textStyle ??
-                                  const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                              textAlign: widget.textAlign,
-                            ),
-                          )
-                        : Container(),
+                    Align(
+                      alignment: FractionalOffset.center,
+                      child: widget.customWidget ??
+                          Text(
+                            time,
+                            style: widget.textStyle ??
+                                const TextStyle(
+                                  fontSize: 16.0,
+                                  color: Colors.black,
+                                ),
+                            textAlign: widget.textAlign,
+                          ),
+                    ),
                   ],
                 ),
               ),

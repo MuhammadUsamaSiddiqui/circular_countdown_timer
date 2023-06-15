@@ -131,7 +131,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
         !widget.autoStart &&
         !countDownController!.isStarted) {
       if (widget.timeFormatterFunction != null) {
-        return Function.apply(widget.timeFormatterFunction!,
+        timeStamp = Function.apply(widget.timeFormatterFunction!,
             [_getTime, Duration(seconds: widget.duration)]).toString();
       } else {
         timeStamp = _getTime(Duration(seconds: widget.duration));
@@ -139,8 +139,9 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     } else {
       Duration? duration = _controller!.duration! * _controller!.value;
       if (widget.timeFormatterFunction != null) {
-        return Function.apply(
-            widget.timeFormatterFunction!, [_getTime, duration]).toString();
+        timeStamp =
+            Function.apply(widget.timeFormatterFunction!, [_getTime, duration])
+                .toString();
       } else {
         timeStamp = _getTime(duration);
       }

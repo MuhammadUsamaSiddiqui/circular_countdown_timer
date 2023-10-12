@@ -319,7 +319,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                               textAlign: widget.textAlign,
                             ),
                           )
-                        :  widget.center!= null ? widget.center : Container(),
+                        :  widget.center != null ? widget.center : Container(),
                   ],
                 ),
               ),

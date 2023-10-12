@@ -317,7 +317,10 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   Widget _buildCenter(){
     if(widget.center != null){
-      return Align(child:widget.center!,alignment: FractionalOffset.center,);
+      return Align(
+        child:widget.center!,
+        alignment: FractionalOffset.center,
+      );
     }
     return widget.isTimerTextShown
         ? Align(

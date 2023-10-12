@@ -306,26 +306,34 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             backgroundGradient: widget.backgroundGradient),
                       ),
                     ),
-                    (widget.isTimerTextShown && widget.center!=null)
-                        ? Align(
-                            alignment: FractionalOffset.center,
-                            child: Text(
-                              time,
-                              style: widget.textStyle ??
-                                  const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                              textAlign: widget.textAlign,
-                            ),
-                          )
-                        :  widget.center != null ? widget.center : Container(),
+                    _buildCenter(),
                   ],
                 ),
               ),
             );
           }),
     );
+  }
+
+  Widget _buildCenter(){
+    if(widget.center != null){
+      return widget.center!;
+    }
+    return widget.isTimerTextShown
+        ? Align(
+      alignment: FractionalOffset.center,
+      child: Text(
+        time,
+        style: widget.textStyle ??
+            const TextStyle(
+              fontSize: 16.0,
+              color: Colors.black,
+            ),
+        textAlign: widget.textAlign,
+      ),
+    )
+        : Container();
+
   }
 
   @override

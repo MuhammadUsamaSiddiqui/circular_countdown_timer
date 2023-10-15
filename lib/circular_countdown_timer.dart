@@ -77,6 +77,10 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
+  /// Center Widget
+  final Widget? center;
+  
+
   /* 
    * Function to format the text.
    * Allows you to format the current duration to any String.
@@ -113,6 +117,7 @@ class CircularCountDownTimer extends StatefulWidget {
     this.autoStart = true,
     this.textFormat,
     this.controller,
+    this.center,
   }) : assert(initialDuration <= duration);
 
   @override
@@ -302,26 +307,37 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             backgroundGradient: widget.backgroundGradient),
                       ),
                     ),
-                    widget.isTimerTextShown
-                        ? Align(
-                            alignment: FractionalOffset.center,
-                            child: Text(
-                              time,
-                              style: widget.textStyle ??
-                                  const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                              textAlign: widget.textAlign,
-                            ),
-                          )
-                        : Container(),
+                    _buildCenter(),
                   ],
                 ),
               ),
             );
           }),
     );
+  }
+
+  Widget _buildCenter(){
+    if(widget.center != null){
+      return Align(
+        child:widget.center!,
+        alignment: FractionalOffset.center,
+      );
+    }
+    return widget.isTimerTextShown
+        ? Align(
+      alignment: FractionalOffset.center,
+      child: Text(
+        time,
+        style: widget.textStyle ??
+            const TextStyle(
+              fontSize: 16.0,
+              color: Colors.black,
+            ),
+        textAlign: widget.textAlign,
+      ),
+    )
+        : Container();
+
   }
 
   @override

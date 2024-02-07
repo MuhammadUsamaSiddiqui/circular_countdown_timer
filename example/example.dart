@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
+import 'package:circular_countdown_timer/countdown_controller.dart';
 
 void main() => runApp(const MyApp());
 
@@ -30,7 +31,9 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final int _duration = 10;
-  final CountDownController _controller = CountDownController();
+  final CountDownController _controller = CountDownController(
+      duration: const Duration(seconds: 10),
+      initialDuration: const Duration(seconds: 10));
 
   @override
   Widget build(BuildContext context) {
@@ -41,13 +44,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: CircularCountDownTimer(
           // Countdown duration in Seconds.
-          duration: _duration,
 
           // Countdown initial elapsed Duration in Seconds.
-          initialDuration: 0,
+          initialDuration: const Duration(seconds: 10),
 
           // Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
-          controller: _controller,
+          countdownController: _controller,
 
           // Width of the Countdown Widget.
           width: MediaQuery.of(context).size.width / 2,
@@ -101,8 +103,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // Handles visibility of the Countdown Text.
           isTimerTextShown: true,
 
-          // Handles the timer start.
-          autoStart: false,
 
           // This Callback will execute when the Countdown Starts.
           onStart: () {

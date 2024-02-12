@@ -1,6 +1,7 @@
 library circular_countdown_timer;
 
 import 'package:flutter/material.dart';
+
 import 'countdown_text_format.dart';
 import 'custom_timer_painter.dart';
 
@@ -129,7 +130,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     String timeStamp = "";
     if (widget.isReverse &&
         !widget.autoStart &&
-        !countDownController!.isStarted) {
+        !countDownController!.isStarted.value) {
       if (widget.timeFormatterFunction != null) {
         return Function.apply(widget.timeFormatterFunction!,
             [_getTime, Duration(seconds: widget.duration)]).toString();
@@ -181,7 +182,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     countDownController?._isReverse = widget.isReverse;
     countDownController?._initialDuration = widget.initialDuration;
     countDownController?._duration = widget.duration;
-    countDownController?.isStarted = widget.autoStart;
+    countDownController?.isStarted.value = widget.autoStart;
 
     if (widget.initialDuration > 0 && widget.autoStart) {
       if (widget.isReverse) {
@@ -335,10 +336,10 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 class CountDownController {
   CircularCountDownTimerState? _state;
   bool? _isReverse;
-  bool isStarted = false,
-      isPaused = false,
-      isResumed = false,
-      isRestarted = false;
+  ValueNotifier<bool> isStarted = ValueNotifier<bool>(false),
+      isPaused = ValueNotifier<bool>(false),
+      isResumed = ValueNotifier<bool>(false),
+      isRestarted = ValueNotifier<bool>(false);
   int? _initialDuration, _duration;
 
   /// This Method Starts the Countdown Timer
@@ -353,10 +354,10 @@ class CountDownController {
         _state?._controller?.forward(
             from: _initialDuration == 0 ? 0 : (_initialDuration! / _duration!));
       }
-      isStarted = true;
-      isPaused = false;
-      isResumed = false;
-      isRestarted = false;
+      isStarted.value = true;
+      isPaused.value = false;
+      isResumed.value = false;
+      isRestarted.value = false;
     }
   }
 
@@ -364,9 +365,9 @@ class CountDownController {
   void pause() {
     if (_state != null && _state?._controller != null) {
       _state?._controller?.stop(canceled: false);
-      isPaused = true;
-      isRestarted = false;
-      isResumed = false;
+      isPaused.value = true;
+      isRestarted.value = false;
+      isResumed.value = false;
     }
   }
 
@@ -378,9 +379,9 @@ class CountDownController {
       } else {
         _state?._controller?.forward(from: _state!._controller!.value);
       }
-      isResumed = true;
-      isRestarted = false;
-      isPaused = false;
+      isResumed.value = true;
+      isRestarted.value = false;
+      isPaused.value = false;
     }
   }
 
@@ -396,10 +397,10 @@ class CountDownController {
       } else {
         _state?._controller?.forward(from: 0);
       }
-      isStarted = true;
-      isRestarted = true;
-      isPaused = false;
-      isResumed = false;
+      isStarted.value = true;
+      isRestarted.value = true;
+      isPaused.value = false;
+      isResumed.value = false;
     }
   }
 
@@ -407,10 +408,10 @@ class CountDownController {
   void reset() {
     if (_state != null && _state?._controller != null) {
       _state?._controller?.reset();
-      isStarted = _state?.widget.autoStart ?? false;
-      isRestarted = false;
-      isPaused = false;
-      isResumed = false;
+      isStarted.value = _state?.widget.autoStart ?? false;
+      isRestarted.value = false;
+      isPaused.value = false;
+      isResumed.value = false;
     }
   }
 

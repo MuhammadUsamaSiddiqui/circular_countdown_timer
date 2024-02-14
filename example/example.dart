@@ -32,6 +32,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final int _duration = 10;
   final CountDownController _controller = CountDownController(
+    autoStart: ValueNotifier<bool>(false),
+      isReverse: ValueNotifier<bool>(true),
+      isReverseAnimation: ValueNotifier<bool>(true),
       duration: const Duration(seconds: 10),
       initialDuration: const Duration(seconds: 10));
 

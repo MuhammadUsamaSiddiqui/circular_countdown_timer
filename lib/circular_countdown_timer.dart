@@ -114,10 +114,10 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   AnimationController? _animationController;
 
   String get time {
-    if (widget.countdownController.isReverse &&
-        !widget.countdownController.autoStart &&
-        !widget.countdownController.autoStart &&
-        !widget.countdownController.isStarted) {
+    if (widget.countdownController.isReverse.value &&
+        !widget.countdownController.autoStart.value &&
+        !widget.countdownController.autoStart.value &&
+        !widget.countdownController.isStarted.value) {
       return Function.apply(widget.timeFormatterFunction, [HelperFunctions.getTimeFormatted, widget.countdownController.duration, widget.textFormat]).toString();
     } else {
       Duration duration =
@@ -129,8 +129,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   }
 
   void _setAnimation() {
-    if (widget.countdownController.autoStart) {
-      if (widget.countdownController.isReverse) {
+    if (widget.countdownController.autoStart.value) {
+      if (widget.countdownController.isReverse.value) {
         _animationController!.reverse(from: 1);
       } else {
         _animationController!.forward();
@@ -139,8 +139,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
   }
 
   void _setAnimationDirection() {
-    if ((!widget.countdownController.isReverse && widget.countdownController.isReverseAnimation) ||
-        (widget.countdownController.isReverse && !widget.countdownController.isReverseAnimation)) {
+    if ((!widget.countdownController.isReverse.value && widget.countdownController.isReverseAnimation.value) ||
+        (widget.countdownController.isReverse.value && !widget.countdownController.isReverseAnimation.value)) {
     }
   }
 
@@ -150,8 +150,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     widget.countdownController.initialDuration = widget.initialDuration;
     widget.countdownController.textFormat = widget.textFormat;
 
-    if (widget.initialDuration.inSeconds > 0 && widget.countdownController.autoStart) {
-      if (widget.countdownController.isReverse) {
+    if (widget.initialDuration.inSeconds > 0 && widget.countdownController.autoStart.value) {
+      if (widget.countdownController.isReverse.value) {
         _animationController?.value =
             1 - (widget.initialDuration.inSeconds / widget.countdownController.duration.inSeconds);
       } else {
@@ -196,7 +196,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
           /// [AnimationController]'s value is manually set to [1.0] that's why [AnimationStatus.completed] is invoked here this animation is [isReverse]
           /// Only call the [_onComplete] block when the animation is not reversed.
-          if (!widget.countdownController.isReverse) _onComplete();
+          if (!widget.countdownController.isReverse.value) _onComplete();
           break;
         default:
         // Do nothing
@@ -232,8 +232,8 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                             ringGradient: widget.ringGradient,
                             strokeWidth: widget.strokeWidth,
                             strokeCap: widget.strokeCap,
-                            isReverse: widget.countdownController.isReverse,
-                            isReverseAnimation: widget.countdownController.isReverseAnimation,
+                            isReverse: widget.countdownController.isReverse.value,
+                            isReverseAnimation: widget.countdownController.isReverseAnimation.value,
                             backgroundColor: widget.backgroundColor,
                             backgroundGradient: widget.backgroundGradient),
                       ),

@@ -1,19 +1,19 @@
-import 'package:flutter/animation.dart';
+import 'package:flutter/material.dart';
 import 'functions/helper_functions.dart';
 
 /// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
 class CountDownController {
   AnimationController? animationController;
-  bool isReverse;
-  bool isReverseAnimation;
-  bool isStarted = false;
-  bool isPaused = false;
-  bool isResumed = false;
-  bool isRestarted = false;
+  ValueNotifier<bool> isReverse;
+  ValueNotifier<bool>  isReverseAnimation;
+  ValueNotifier<bool> isStarted = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isPaused = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isResumed = ValueNotifier<bool>(false);
+  ValueNotifier<bool> isRestarted = ValueNotifier<bool>(false);
   Duration initialDuration;
   Duration duration;
   String? textFormat;
-  bool autoStart;
+  ValueNotifier<bool> autoStart = ValueNotifier<bool>(false);
   Function onStartCallback;
   Function onCompleteCallback;
 
@@ -22,39 +22,25 @@ class CountDownController {
   CountDownController(
       {required this.duration,
       required this.initialDuration,
-      this.autoStart = false,
-      this.isReverse = false,
-      this.isReverseAnimation = false,
+      required this.autoStart,
+      required this.isReverse,
+      required this.isReverseAnimation,
       this.onStartCallback = emptyCallback,
       this.onCompleteCallback = emptyCallback});
 
   /// This Method Starts the Countdown Timer
   void start() {
-    /*
+
     if (animationController != null) {
-      if (isReverse) {
-        animationController?.reverse(
-            from:
-                initialDuration.inSeconds == 0 ? 1 : 1 - (initialDuration.inSeconds / duration.inSeconds));
-      } else {
-        animationController?.forward(
-            from: initialDuration.inSeconds == 0 ? 0 : (initialDuration.inSeconds / duration.inSeconds));
-      }
-      isStarted = true;
-      isPaused = false;
-      isResumed = false;
-      isRestarted = false;
-    } */
-    if (animationController != null) {
-      if (isReverse) {
+      if (isReverse.value) {
         animationController?.reverse(from: 1);
       } else {
         animationController?.forward(from: 0);
       }
-      isStarted = true;
-      isRestarted = false;
-      isPaused = false;
-      isResumed = false;
+      isStarted.value = true;
+      isRestarted.value = false;
+      isPaused.value = false;
+      isResumed.value = false;
     }
   }
 
@@ -62,23 +48,23 @@ class CountDownController {
   void pause() {
     if (animationController != null) {
       animationController?.stop(canceled: false);
-      isPaused = true;
-      isRestarted = false;
-      isResumed = false;
+      isPaused.value = true;
+      isRestarted.value = false;
+      isResumed.value = false;
     }
   }
 
   /// This Method Resumes the Countdown Timer
   void resume() {
     if (animationController != null) {
-      if (isReverse) {
+      if (isReverse.value) {
         animationController?.reverse(from: animationController!.value);
       } else {
         animationController?.forward(from: animationController!.value);
       }
-      isResumed = true;
-      isRestarted = false;
-      isPaused = false;
+      isResumed.value = true;
+      isRestarted.value = false;
+      isPaused.value = false;
     }
   }
 
@@ -89,15 +75,15 @@ class CountDownController {
     if (animationController != null) {
       animationController!.duration = Duration(
           seconds: duration ?? animationController!.duration!.inSeconds);
-      if (isReverse) {
+      if (isReverse.value) {
         animationController?.reverse(from: 1);
       } else {
         animationController?.forward(from: 0);
       }
-      isStarted = true;
-      isRestarted = true;
-      isPaused = false;
-      isResumed = false;
+      isStarted.value = true;
+      isRestarted.value = true;
+      isPaused.value = false;
+      isResumed.value = false;
     }
   }
 
@@ -109,9 +95,9 @@ class CountDownController {
           seconds: duration ?? animationController!.duration!.inSeconds);
       animationController?.reset();
       isStarted = autoStart;
-      isRestarted = false;
-      isPaused = false;
-      isResumed = false;
+      isRestarted.value = false;
+      isPaused.value = false;
+      isResumed.value = false;
     }
   }
 

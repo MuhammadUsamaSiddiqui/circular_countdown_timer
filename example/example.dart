@@ -94,12 +94,6 @@ class _MyHomePageState extends State<MyHomePage> {
           // Format for the Countdown Text.
           textFormat: CountdownTextFormat.S,
 
-          // Handles Countdown Timer (true for Reverse Countdown (max to 0), false for Forward Countdown (0 to max)).
-          isReverse: false,
-
-          // Handles Animation Direction (true for Reverse Animation, false for Forward Animation).
-          isReverseAnimation: false,
-
           // Handles visibility of the Countdown Text.
           isTimerTextShown: true,
 

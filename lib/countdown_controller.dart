@@ -5,6 +5,7 @@ import 'functions/helper_functions.dart';
 class CountDownController {
   AnimationController? animationController;
   bool isReverse;
+  bool isReverseAnimation;
   bool isStarted = false;
   bool isPaused = false;
   bool isResumed = false;
@@ -16,13 +17,20 @@ class CountDownController {
   Function onStartCallback;
   Function onCompleteCallback;
 
-
   static emptyCallback() {}
-  CountDownController({required this.duration, required this.initialDuration, this.autoStart = false, this.isReverse = false,
-    this.onStartCallback = emptyCallback, this.onCompleteCallback = emptyCallback});
+
+  CountDownController(
+      {required this.duration,
+      required this.initialDuration,
+      this.autoStart = false,
+      this.isReverse = false,
+      this.isReverseAnimation = false,
+      this.onStartCallback = emptyCallback,
+      this.onCompleteCallback = emptyCallback});
 
   /// This Method Starts the Countdown Timer
   void start() {
+    /*
     if (animationController != null) {
       if (isReverse) {
         animationController?.reverse(
@@ -36,9 +44,19 @@ class CountDownController {
       isPaused = false;
       isResumed = false;
       isRestarted = false;
+    } */
+    if (animationController != null) {
+      if (isReverse) {
+        animationController?.reverse(from: 1);
+      } else {
+        animationController?.forward(from: 0);
+      }
+      isStarted = true;
+      isRestarted = false;
+      isPaused = false;
+      isResumed = false;
     }
   }
-
 
   /// This Method Pauses the Countdown Timer
   void pause() {
@@ -84,8 +102,11 @@ class CountDownController {
   }
 
   /// This Method resets the Countdown Timer
-  void reset() {
+  void reset({int? duration}) {
     if (animationController != null) {
+      this.duration = Duration(seconds: duration ?? this.duration.inSeconds);
+      animationController!.duration = Duration(
+          seconds: duration ?? animationController!.duration!.inSeconds);
       animationController?.reset();
       isStarted = autoStart;
       isRestarted = false;
@@ -101,7 +122,8 @@ class CountDownController {
     String value = "";
     if (animationController != null) {
       value = HelperFunctions.getTimeFormatted(
-          animationController!.duration! * animationController!.value, textFormat);
+          animationController!.duration! * animationController!.value,
+          textFormat);
     }
     return value;
   }

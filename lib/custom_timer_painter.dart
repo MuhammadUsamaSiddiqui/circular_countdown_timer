@@ -49,16 +49,20 @@ class CustomTimerPainter extends CustomPainter {
     //   startAngle = -math.pi / 2;
     // }
 
+    final fillPaint = Paint()
+      ..style = PaintingStyle.stroke
+      ..strokeCap = strokeCap!
+      ..strokeWidth = strokeWidth!;
     if (fillGradient != null) {
       final rect = Rect.fromCircle(
           center: size.center(Offset.zero), radius: size.width / 2);
-      paint.shader = fillGradient!.createShader(rect);
+      fillPaint.shader = fillGradient!.createShader(rect);
     } else {
-      paint.shader = null;
-      paint.color = fillColor!;
+      fillPaint.shader = null;
+      fillPaint.color = fillColor!;
     }
 
-    canvas.drawArc(Offset.zero & size, startAngle, progress, false, paint);
+    canvas.drawArc(Offset.zero & size, startAngle, progress, false, fillPaint);
 
     if (backgroundColor != null || backgroundGradient != null) {
       final backgroundPaint = Paint();

@@ -1,7 +1,6 @@
 ## Attention
 
 This is a fork of Circular Countdown Timer. Here i want to add some features like Reset the timer without autorun.
-It's actually not working. But i will make it run in the next few weeks.
 
 ## Circular Countdown Timer
 

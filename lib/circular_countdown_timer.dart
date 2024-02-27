@@ -75,6 +75,9 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
   final CountDownController? controller;
 
+  // Configures how an Circular Countdown Timer behaves when animations are disabled.
+  final AnimationBehavior animationBehavior;
+
   /// Handles the timer start.
   final bool autoStart;
 
@@ -114,6 +117,7 @@ class CircularCountDownTimer extends StatefulWidget {
     this.autoStart = true,
     this.textFormat,
     this.controller,
+    this.animationBehavior = AnimationBehavior.normal
   }) : assert(initialDuration <= duration);
 
   @override
@@ -243,6 +247,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     _controller = AnimationController(
       vsync: this,
       duration: Duration(seconds: widget.duration),
+      animationBehavior: widget.animationBehavior
     );
 
     _controller!.addStatusListener((status) {

@@ -1,8 +1,8 @@
 library circular_countdown_timer;
 
-import 'package:circular_countdown_timer/functions/helper_functions.dart';
-import 'package:flutter/material.dart';
 
+import 'package:flutter/material.dart';
+import '/classes/formats.dart';
 import 'custom_timer_painter.dart';
 import 'countdown_controller.dart';
 
@@ -118,12 +118,12 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
         !widget.countdownController.autoStart.value &&
         !widget.countdownController.autoStart.value &&
         !widget.countdownController.isStarted.value) {
-      return Function.apply(widget.timeFormatterFunction, [HelperFunctions.getTimeFormatted, widget.countdownController.duration, widget.textFormat]).toString();
+      return Function.apply(widget.timeFormatterFunction, [Formats.getTimeFormatted, widget.countdownController.duration, widget.textFormat]).toString();
     } else {
       Duration duration =
       widget.countdownController.duration * _animationController!.value;
           //_animationController!.duration! * _animationController!.value;
-      return Function.apply(widget.timeFormatterFunction, [HelperFunctions.getTimeFormatted, duration, widget.textFormat]).toString();
+      return Function.apply(widget.timeFormatterFunction, [Formats.getTimeFormatted, duration, widget.textFormat]).toString();
 
     }
   }

@@ -1,6 +1,6 @@
 import '../countdown_text_format.dart';
 
-class HelperFunctions {
+class Formats {
   static _defaultFormat(Duration duration) {
     if (duration.inHours != 0) {
       return '${duration.inHours.toString().padLeft(2, '0')}:${(duration.inMinutes % 60).toString().padLeft(2, '0')}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'functions/helper_functions.dart';
+import '/classes/formats.dart';
 
 /// Controls (i.e Start, Pause, Resume, Restart) the Countdown Timer.
 class CountDownController {
@@ -107,7 +107,7 @@ class CountDownController {
   String? getTime() {
     String value = "";
     if (animationController != null) {
-      value = HelperFunctions.getTimeFormatted(
+      value = Formats.getTimeFormatted(
           animationController!.duration! * animationController!.value,
           textFormat);
     }

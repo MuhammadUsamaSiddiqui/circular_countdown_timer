@@ -121,6 +121,7 @@ class _MyHomePageState extends State<MyHomePage> {
             // Here, do whatever you want
             debugPrint('Countdown Changed $timeStamp');
           },
+          isControlButtonShown: true,
 
           /* 
             * Function to format the text.

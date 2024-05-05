@@ -78,11 +78,14 @@ class CircularCountDownTimer extends StatefulWidget {
   /// Handles the timer start.
   final bool autoStart;
 
-  /* 
+  /// Handles visibility of the Pause and Start Button Text
+  final bool isControlButtonShown;
+
+  /*
    * Function to format the text.
    * Allows you to format the current duration to any String.
    * It also provides the default function in case you want to format specific moments
-     as in reverse when reaching '0' show 'GO', and for the rest of the instances follow 
+     as in reverse when reaching '0' show 'GO', and for the rest of the instances follow
      the default behavior.
   */
   final Function(Function(Duration duration) defaultFormatterFunction,
@@ -114,6 +117,7 @@ class CircularCountDownTimer extends StatefulWidget {
     this.autoStart = true,
     this.textFormat,
     this.controller,
+    this.isControlButtonShown = false,
   }) : assert(initialDuration <= duration);
 
   @override
@@ -154,6 +158,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
 
   void _setAnimation() {
     if (widget.autoStart) {
+      countDownController!.isRunning.value = true;
       if (widget.isReverse) {
         _controller!.reverse(from: 1);
       } else {
@@ -274,6 +279,7 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     _setController();
   }
 
+  bool pressed = true;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -305,18 +311,58 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
                     ),
                     widget.isTimerTextShown
                         ? Align(
-                            alignment: FractionalOffset.center,
-                            child: Text(
-                              time,
-                              style: widget.textStyle ??
-                                  const TextStyle(
-                                    fontSize: 16.0,
-                                    color: Colors.black,
-                                  ),
-                              textAlign: widget.textAlign,
+                            alignment: widget.isControlButtonShown
+                                ? FractionalOffset.topCenter
+                                : FractionalOffset.center,
+                            child: Container(
+                              padding: widget.isControlButtonShown
+                                  ? const EdgeInsets.symmetric(
+                                      vertical: 50, horizontal: 20)
+                                  : null,
+                              child: Text(
+                                time,
+                                style: widget.textStyle ??
+                                    const TextStyle(
+                                      fontSize: 16.0,
+                                      color: Colors.black,
+                                    ),
+                                textAlign: widget.textAlign,
+                              ),
                             ),
                           )
                         : Container(),
+                    widget.isControlButtonShown
+                        ? Align(
+                            alignment: FractionalOffset.bottomCenter,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: IconButton(
+                                  iconSize: 50.0,
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 20, horizontal: 20),
+                                  icon: ValueListenableBuilder<bool>(
+                                      valueListenable:
+                                          widget.controller!.isRunning,
+                                      builder: (context, isRunning, child) {
+                                        return Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: isRunning
+                                                ? const Icon(Icons.stop)
+                                                : const Icon(
+                                                    Icons.play_arrow_rounded));
+                                      }),
+                                  onPressed: () {
+                                    if ((widget.controller?.isRunning.value ??
+                                            true) ==
+                                        true) {
+                                      widget.controller?.pause();
+                                    } else {
+                                      widget.controller?.resume();
+                                    }
+                                  }),
+                            ))
+                        : Container()
                   ],
                 ),
               ),
@@ -340,7 +386,8 @@ class CountDownController {
   ValueNotifier<bool> isStarted = ValueNotifier<bool>(false),
       isPaused = ValueNotifier<bool>(false),
       isResumed = ValueNotifier<bool>(false),
-      isRestarted = ValueNotifier<bool>(false);
+      isRestarted = ValueNotifier<bool>(false),
+      isRunning = ValueNotifier<bool>(false);
   int? _initialDuration, _duration;
 
   /// This Method Starts the Countdown Timer
@@ -359,6 +406,7 @@ class CountDownController {
       isPaused.value = false;
       isResumed.value = false;
       isRestarted.value = false;
+      isRunning.value = true;
     }
   }
 
@@ -369,6 +417,7 @@ class CountDownController {
       isPaused.value = true;
       isRestarted.value = false;
       isResumed.value = false;
+      isRunning.value = false;
     }
   }
 
@@ -383,6 +432,7 @@ class CountDownController {
       isResumed.value = true;
       isRestarted.value = false;
       isPaused.value = false;
+      isRunning.value = true;
     }
   }
 
@@ -402,6 +452,7 @@ class CountDownController {
       isRestarted.value = true;
       isPaused.value = false;
       isResumed.value = false;
+      isRunning.value = true;
     }
   }
 
@@ -409,10 +460,14 @@ class CountDownController {
   void reset() {
     if (_state != null && _state?._controller != null) {
       _state?._controller?.reset();
+      if (_state?.widget.autoStart ?? true) {
+        start();
+      }
       isStarted.value = _state?.widget.autoStart ?? false;
       isRestarted.value = false;
       isPaused.value = false;
       isResumed.value = false;
+      isRunning.value = (_state?.widget.autoStart ?? false);
     }
   }
 

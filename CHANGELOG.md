@@ -1,3 +1,6 @@
+## [0.2.4] - Jul 27 2024.
+* Updated package to the latest Flutter version.
+
 ## [0.2.3] - Oct 29 2022.
 * Fixes:
     * Fixed values of isPaused and isResumed parameters of CountDownController.

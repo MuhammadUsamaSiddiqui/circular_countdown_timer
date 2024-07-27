@@ -4,7 +4,7 @@ import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, this.title}) : super(key: key);
+  const MyHomePage({super.key, this.title});
 
   final String? title;
 
@@ -86,9 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
             fontWeight: FontWeight.bold,
           ),
 
-          // Text Align for Countdown Text.
-          textAlign: TextAlign.justify,
-
           // Format for the Countdown Text.
           textFormat: CountdownTextFormat.S,
 
@@ -102,7 +99,7 @@ class _MyHomePageState extends State<MyHomePage> {
           isTimerTextShown: true,
 
           // Handles the timer start.
-          autoStart: false,
+          autoStart: true,
 
           // This Callback will execute when the Countdown Starts.
           onStart: () {
@@ -116,27 +113,20 @@ class _MyHomePageState extends State<MyHomePage> {
             debugPrint('Countdown Ended');
           },
 
+          // timeFormatterFunction: (defaultFormatterFunction, duration) {
+          //   if (duration.inSeconds == 0) {
+          //     //only format for '0'
+          //     return "Start";
+          //   } else {
+          //     //others durations by it's default format
+          //     return Function.apply(defaultFormatterFunction, [duration]);
+          //   }
+          // },
+
           // This Callback will execute when the Countdown Changes.
           onChange: (String timeStamp) {
             // Here, do whatever you want
             debugPrint('Countdown Changed $timeStamp');
-          },
-
-          /* 
-            * Function to format the text.
-            * Allows you to format the current duration to any String.
-            * It also provides the default function in case you want to format specific moments
-              as in reverse when reaching '0' show 'GO', and for the rest of the instances follow 
-              the default behavior.
-          */
-          timeFormatterFunction: (defaultFormatterFunction, duration) {
-            if (duration.inSeconds == 0) {
-              // only format for '0'
-              return "Start";
-            } else {
-              // other durations by it's default format
-              return Function.apply(defaultFormatterFunction, [duration]);
-            }
           },
         ),
       ),
@@ -155,14 +145,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           _button(
             title: "Pause",
-            onPressed: () => _controller.pause(),
+            onPressed: () {
+              _controller.pause();
+              debugPrint("Pause ${_controller.isPaused}");
+              debugPrint("Resume ${_controller.isResumed}");
+            },
           ),
           const SizedBox(
             width: 10,
           ),
           _button(
             title: "Resume",
-            onPressed: () => _controller.resume(),
+            onPressed: () {
+              _controller.resume();
+              debugPrint("Pause ${_controller.isPaused}");
+              debugPrint("Resume ${_controller.isResumed}");
+            },
           ),
           const SizedBox(
             width: 10,
@@ -180,7 +178,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Expanded(
       child: ElevatedButton(
         style: ButtonStyle(
-          backgroundColor: MaterialStateProperty.all(Colors.purple),
+          backgroundColor: WidgetStateProperty.all(Colors.purple),
         ),
         onPressed: onPressed,
         child: Text(

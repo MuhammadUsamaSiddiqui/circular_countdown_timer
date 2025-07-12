@@ -185,13 +185,13 @@ class CircularCountDownTimerState extends State<CircularCountDownTimer>
     countDownController?._duration = widget.duration;
     countDownController?.isStarted.value = widget.autoStart;
 
-    if (widget.initialDuration > 0 && widget.autoStart) {
-      if (widget.isReverse) {
-        _controller?.value = 1 - (widget.initialDuration / widget.duration);
-      } else {
-        _controller?.value = (widget.initialDuration / widget.duration);
-      }
+    if (widget.isReverse) {
+      _controller?.value = 1 - (widget.initialDuration / widget.duration);
+    } else {
+      _controller?.value = (widget.initialDuration / widget.duration);
+    }
 
+    if(widget.autoStart){
       countDownController?.start();
     }
   }
